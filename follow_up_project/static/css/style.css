@@ -750,7 +750,7 @@ overflow-y: auto;
 
 .icon_info ul.user_profile_dd li div a {
   font-size: 15px;
-  color: #40128b;
+  color: #04010a;
   padding: 4px 15px;
   border-bottom: none;
   line-height: normal;
@@ -758,7 +758,7 @@ overflow-y: auto;
 
 .icon_info ul.user_profile_dd li div a span {
   font-size: 13px;
-  color: #40128b;
+  color: #030007;
   font-weight: normal;
   padding: 0;
   transition: all 0.3s ease-in-out;
@@ -767,7 +767,7 @@ overflow-y: auto;
 
 .icon_info ul.user_profile_dd li div a:hover,
 .icon_info ul.user_profile_dd li div a:focus {
-  background: #40128b;
+  background: #df5506;
   color: #fff;
 }
 
