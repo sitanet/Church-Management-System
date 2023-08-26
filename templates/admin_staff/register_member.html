@@ -1,10 +1,10 @@
-{% extends 'admin/base.html' %}
+{% extends 'admin_staff/base.html' %}
 
 {% load static %}
 
 {% block content %}
       
-            {% include 'admin/includes/alerts.html' %}
+            {% include 'admin_staff/includes/alerts.html' %}
                                     
             {{ form.errors }}
                <div class="container-fluid">
@@ -164,6 +164,8 @@
                                                 <span class="btnText">Submit</span>
                                                 <i class="uil uil-navigator"></i>
                                             </button>
+
+                                            <!-- <button type="submit" class="btn w-100 btn-danger mt-4 shadow-sm">Submit</button> -->
                                     </div> 
                                 </div>
                       

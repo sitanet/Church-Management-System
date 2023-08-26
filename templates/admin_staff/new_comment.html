@@ -1,0 +1,81 @@
+{% extends 'admin_staff/base.html' %}
+
+{% load static %}
+
+{% block content %}
+      
+            {% include 'admin_staff/includes/alerts.html' %}
+                                    
+            {{ form.errors }}
+               <div class="container-fluid">
+                     <div class="row column_title">
+                         <div class="col-md-12">
+                               <div class="page_title">
+                                       <h2>Dashboard</h2>
+                               </div>
+                         </div>
+                     </div>
+           
+                     <form action="#" class="mx-5 py-5 bg-white rounded rounded-5 shadow">
+                        <div class="form">
+                              <h4 class="text-center">Enter New Comment</h4>
+                              <div class="form-group m-auto col-md-6 pt-4">
+
+                                    <label for="fName">First Name <span
+                                                class="text-danger">*</span></label>
+                                    <input type="text" class="form-control bg-light"
+                                          placeholder="First Name" required>
+                              </div>
+                              <br>
+                              <div class="form-group m-auto col-md-6">
+                                    <label for="lname">Last Name <span
+                                                class="text-danger">*</span></label>
+                                    <input type="text" class="form-control bg-light"
+                                          placeholder="Last Name" required>
+                              </div>
+
+
+                              <br>
+                              <div class="form-group col-md-6 m-auto">
+                                    <label for="comment">Comment <span
+                                                class="text-danger">*</span></label>
+                                    <textarea class="form-control bg-light" id="comment" rows="10"
+                                          placeholder="Your Comment Here" required></textarea>
+                              </div>
+                        </div>
+                        <div class=" col-md-6 m-auto text-center">
+                              <button type="submit"
+                                    class="btn btn-danger w-100  mt-4 shadow-sm">Comment</button>
+                        </div>
+
+
+
+                  </form>
+                      
+                                <div class="form second">
+                                    <div class="details address">
+                                       
+                      
+                              
+                                    </div>
+                      
+                                    <div class="details family">
+                                       
+                      
+                      
+                       
+                                          
+                      
+                       
+                                </div>
+                            </form>
+                     </div>
+           
+                           
+                  </div>
+            
+         
+            
+                 
+            
+                  {% endblock %}

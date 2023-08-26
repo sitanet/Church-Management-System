@@ -3,90 +3,172 @@
 {% load static %}
 
 {% block content %}
-            
-                    
-                       
-
-                
-                       
-                        {% include 'admin_staff/includes/alerts.html' %}
-                        
-                            {{ form.errors }}
-                        
-                        <!-- dashboard inner -->
-            
-                        <div class="midde_cont">
-                            <div class="container-fluid">
-                               <div class="row column_title">
-                                  <div class="col-md-12">
-                                     <div class="page_title">
-                                        <h2>Register Staff</h2>
-                                     </div>
-                                  </div>
+      
+            {% include 'admin_staff/includes/alerts.html' %}
+                                    
+            {{ form.errors }}
+               <div class="container-fluid">
+                     <div class="row column_title">
+                         <div class="col-md-12">
+                               <div class="page_title">
+                                       <h2>Dashboard</h2>
                                </div>
-                               <!-- row -->
-                               <!-- form -->
-                               <form action="#" class="bg-white p-5 rounded rounded-5 shadow">
-                                  <h4>Staff Form</h4>
-                                  <div class="form-row">
-                                     <div class="form-group col-md-6">
-                                        <label for="fName">Staff Fullname</label>
-                                        <input type="text" class="form-control bg-light" placeholder="Fullname">
-                                     </div>
-             
-                                     <div class="form-group col-md-6">
-                                        <label for="address">Email Address</label>
-                                        <input type="email" class="form-control bg-light" placeholder="Email Address">
-                                     </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="Phone">Phone Number</label>
-                                        <input type="tel" class="form-control bg-light" placeholder="Email Address">
-                                     </div>
-             
-                                     <div class="form-group col-md-6">
-                                        <label for="marital">Marital Stutus</label>
-                                        <select class="form-control bg-light" name="marital" id="" required>
-                                           <option value="">Select Marital Stutus</option>
-                                           <option value="male">Single</option>
-                                           <option value="female">Marriage</option>
-                                           <option value="female">Others</option>
-             
-                                        </select>
-                                     </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="gender">Gender</label>
-                                        <select class="form-control bg-light" name="gender" id="" required>
-                                           <option value="">Select Gender</option>
-                                           <option value="male">Male</option>
-                                           <option value="female">Female</option>
-                                        </select>
-                                     </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="occupation">Occupation</label>
-                                        <input type="text" class="form-control bg-light" placeholder="Occupation">
-                                     </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="id">ID Number</label>
-                                        <input type="text" class="form-control bg-light" placeholder="ID Number">
-                                     </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="email">Department</label>
-                                        <input type="email" class="form-control bg-light" placeholder="Email Address">
-                                     </div>
-                                  </div>
-                                  <button type="submit" class="btn w-100 btn-danger mt-4 shadow-sm">Submit</button>
-                               </form>
-             
-                               <!-- footer -->
-                             
-                            </div>
-                            <!-- end dashboard inner -->
                          </div>
-                    
+                     </div>
+           
+                     <div class="container">
+                             <header>Registration</header>
 
 
-                    
-     
+                             <form method="POST" enctype="multipart/form-data">
+                              {% csrf_token %}
+                      
+                      
+                       
+                                <div class="form first">
+                                    <div class="details personal">
+                                      
+                      
+                      
+                            <!-- <div class="image-preview-container">
+                                <div class="preview">
+                                    <img id="preview-selected-image" />
+                                </div>
+                                <label for="file-upload">Choose Photo</label>
+                                <input type="file" id="file-upload" name="image" accept="image/*" onchange="previewImage(event);" />
+                            </div> -->
+                      
+                                        <div class="fields">
+                                            <div class="input-field">
+                                                <label>First Name*</label>
+                                                <!-- <input type="text" placeholder="Enter First Name" name="first_name" required> -->
+                                                {{form.first_name}}
+                                            </div>
+                                           
+                                             <div class="input-field">
+                                                <label>Last Name*</label>
+                                                <!-- <input type="text" placeholder="Enter Last Name" name="last_name" > -->
+                                                {{form.last_name}}
+                                            </div>
+                      
+                                             <div class="input-field">
+                                                <label>Username*</label>
+                                                <!-- <input type="textarea" placeholder="Enter Address" name="address" > -->
+                                                {{form.username}}
+                                            </div>
+                                            <div class="input-field">
+                                             <label>Password*</label>
+                                             <!-- <input type="textarea" placeholder="Enter Address" name="address" > -->
+                                             {{form.password}}
+                                             </div>
+                                             <div class="input-field">
+                                                <label>Confirm Password*</label>
+                                                <!-- <input type="textarea" placeholder="Enter Address" name="address" > -->
+                                                {{form.password}}
+                                             </div>
+                      
+                                            <div class="input-field">
+                                                <label>Email*</label>
+                                                <!-- <input type="text" placeholder="Enter Nationality" name="nationality" > -->
+                                                {{form.email}}
+                                            </div>
+                      
+                                            <div class="input-field">
+                                                <label>Phone Number*</label>
+                                                <!-- <input type="date" placeholder="Enter birth date" name="date_of_birth" > -->
+                                                {{form.phone_number}}
+                                            </div>
+                      
+                                            <div class="input-field">
+                                             <label>Gender</label>
+                                             <select required name="gender">
+                                                 <option disabled selected>Select Gender</option>
+                                                 <option>Male</option>
+                                                 <option>Female</option>
+                                                
+                                                 
+                                             </select>
+                                         </div>
+                      
+                                            <div class="input-field">
+                                                <label>Staff ID*</label>
+                                                <!-- <input type="number" placeholder="Enter mobile number" name="phone_no" > -->
+                                                {{form.staff_id}}
+                                            </div>
+                      
+                                            <div class="input-field">
+                                                <label>Role*</label>
+                                               {{form.role}}
+                                            </div>
+                                           
+                      
+                                           
+                                        </div>
+                                    </div>
+                      
+                                    <div class="details ID">
+                                     
+                      
+                                        <div class="fields">
+                                           
+                      
+                                           
+                      
+                      
+                                        
+                                         
+                      
+                                             <!-- <div class="input-field">
+                                                <label>Purpose of Visit</label>
+                                                <select required name="purpose">
+                                                    <option disabled selected>Select Marital Status</option>
+                                                    <option>School</option>
+                                                    <option>Work</option>
+                                                    <option>Special Event</option>
+                                                    <option>Relocate to Ibadan</option>
+                                                    <option>Conference/Training</option>
+                                                    
+                                                </select>
+                                            </div> -->
+                                        </div>
+                      
+                      
+                                           
+                                        </div>
+                      
+                                    <button class="sumbit">
+                                                <span class="btnText">Submit</span>
+                                                <i class="uil uil-navigator"></i>
+                                            </button>
 
-
-{% endblock %}
+                                            <!-- <button type="submit" class="btn w-100 btn-danger mt-4 shadow-sm">Submit</button> -->
+                                    </div> 
+                                </div>
+                      
+                                <div class="form second">
+                                    <div class="details address">
+                                       
+                      
+                              
+                                    </div>
+                      
+                                    <div class="details family">
+                                       
+                      
+                      
+                       
+                                          
+                      
+                       
+                                </div>
+                            </form>
+                     </div>
+           
+                           
+                  </div>
+            
+         
+            
+                 
+            
+                  {% endblock %}

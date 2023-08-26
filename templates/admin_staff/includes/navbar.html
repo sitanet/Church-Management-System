@@ -23,17 +23,32 @@
    <div class="sidebar_blog_2">
       <h4>General</h4>
       <ul class="list-unstyled components">
-         <li><a href="dashboard.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+         <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
          </li>
-         <li><a href="registerMember.html"><i class="fa fa-user"></i> <span>Register
+         <li><a href="{% url 'register_member' %}"><i class="fa fa-user"></i> <span>Register
                   Member</span></a>
          </li>
 
          <li>
-            <a href="#element" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
-                  class="fa fa-diamond purple_color"></i> <span>Report</span></a>
+            <li>
+               <a href="#element" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                       class="fa fa-diamond purple_color"></i>
+                   <span>Report</span></a>
+               <ul class="collapse list-unstyled" id="element">
+                   <li><a href="{% url 'display_all_member' %}">> <span>Display All Member</span></a></li>
+                   <li>
+                       <a href="#commentsDropdown" data-toggle="collapse" aria-expanded="false"
+                           class="dropdown-toggle">
+                           <span>> Comments</span></a>
+                       <ul class="collapse list-unstyled" id="commentsDropdown">
+                           <!-- <li><a href="newComment.html">New Comment</a></li> -->
+                           <li><a href="{% url 'display_comment' %}">Display Comments</a></li>
+                       </ul>
+                   </li>
+               </ul>
+           </li>
             <ul class="collapse list-unstyled" id="element">
-               <li><a href="displayAllMember.html">> <span>Display All Member</span></a></li>
+              
                <li><a href="displaySingleMember.html">> <span>Single Member</span></a></li>
                <li><a href="displayComment.html">> <span>Comments</span></a></li>
             </ul>
@@ -73,8 +88,8 @@
                               class="img-responsive rounded-circle" src="{% static 'images/layout_img/user_img.jpg' %}"
                               alt="#" /> <b style="color: #fff;">Bayo Izekor</b><span class="name_user"></span></a>
                         <div class="dropdown-menu">
-                           <a class="dropdown-item" href="profile.html">My Profile</a>
-                           <a class="dropdown-item" href="changePassword.html">Change Password</a>
+                           <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                           <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
                            <a class="dropdown-item" href="#"><span>Log Out</span> <i
                                  class="fa fa-sign-out"></i></a>
                         </div>

@@ -740,7 +740,7 @@ overflow-y: auto;
   position: absolute;
   right: -2px;
   top: -7px;
-  background: #9336b4;
+  /* background: #9336b4; */
   border-radius: 100%;
   color: #fff;
   font-weight: 600;
@@ -819,7 +819,7 @@ span {
 #sidebar {
   min-width: 280px;
   max-width: 280px;
-  background-color: #40128b;
+  /* background-color: #40128b; */
   color: #fff;
   transition: all 0.3s;
   position: relative;
@@ -939,7 +939,7 @@ a[data-toggle="collapse"] {
 
 .topbar .navbar {
   padding: 0;
-  background: #40128b;
+  /* background: #40128b; */
   border: none;
   border-radius: 0;
 }
@@ -950,7 +950,7 @@ a[data-toggle="collapse"] {
 
 .sidebar_user_info {
   padding: 15px 25px;
-  background: #40128b;
+  /* background: #40128b; */
 }
 
 .user_img img {

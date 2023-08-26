@@ -51,20 +51,16 @@ class User(AbstractBaseUser):
     ROLE_CHOICE = (
         (ADMIN, 'Admin'),
         (COORDINATOR, 'Coordinator'),
-        (TEAM_MEMBER, 'Team_Member'),
+        (TEAM_MEMBER, 'Team Member'),
     )
 
-    GENDER_CHOICE = (
-       
-        (MALE, 'Male'),
-        (FEMALE, 'Female'),
-    )
+   
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=12, blank=True)
-    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICE, blank=True, null=True)
+    gender = models.CharField(max_length=12, blank=True)
     staff_id = models.CharField(max_length=12, blank=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICE, blank=True, null=True)
 
@@ -73,10 +69,10 @@ class User(AbstractBaseUser):
     last_login = models.DateTimeField(auto_now_add=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
-    is_superadmin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+    is_superadmin = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']

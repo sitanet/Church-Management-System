@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'follow_app',
     'accounts',
+    'coordinators',
+    'team_members',
 ]
 
 MIDDLEWARE = [
