@@ -1,0 +1,95 @@
+{% extends 'admin_staff/base.html' %}
+
+{% load static %}
+
+{% block content %}
+            
+                    
+                       
+
+                
+                       
+                        {% include 'admin_staff/includes/alerts.html' %}
+                        
+                            {{ form.errors }}
+                        
+                        <!-- dashboard inner -->
+            
+                        <div class="midde_cont">
+                            <div class="container-fluid">
+                                <div class="row column_title">
+                                    <div class="col-md-12 ">
+                                        <div class="page_title">
+                                            <h2>Display Comment</h2>
+                                        </div>
+                                    </div>
+                                </div>
+        
+        
+        
+                                <!-- table -->
+                                <div class="col-md-12">
+                                    <div class="white_shd full margin_bottom_30">
+                                        <div class="table_section padding_infor_info">
+        
+                                            <button type="submit" class="btn btn-danger  mb-2 shadow-sm"><a
+                                                    href="{% url 'new_comment' %}">New Comment</a></button>
+        
+                                            <div class="table-responsive-sm">
+                                                <div class="input-group mb-1">
+                                                    <input type="text" class="form-control bg-light" placeholder="Search..."
+                                                        id="searchInput">
+                                                    <div class="">
+                                                        <button class="btn btn-danger" type="button"
+                                                            onclick="searchTable()">Search</button>
+                                                    </div>
+                                                </div>
+                                                <table class="table">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Firstname</th>
+                                                            <th>Lastname</th>
+                                                            <th>Phone Number</th>
+                                                            <th class="text-danger">Comment</th>
+        
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>John</td>
+                                                            <td>Doe</td>
+                                                            <td>john@example.com</td>
+                                                            <td><a href="viewComments.html" class="text-danger">View
+                                                                    Comments</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Mary</td>
+                                                            <td>Moe</td>
+                                                            <td>mary@example.com</td>
+                                                            <td><a href="viewComments.html" class="text-danger">View
+                                                                    Comments</a></td>
+        
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+             
+                               <!-- footer -->
+                             
+                            </div>
+                            <!-- end dashboard inner -->
+                         </div>
+                    
+
+
+                    
+     
+
+
+{% endblock %}

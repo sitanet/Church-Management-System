@@ -1,0 +1,102 @@
+{% extends 'admin_staff/base.html' %}
+
+{% load static %}
+
+{% block content %}
+            
+                    
+                       
+
+                
+                       
+                        {% include 'admin_staff/includes/alerts.html' %}
+                        
+                            {{ form.errors }}
+                        
+                        <!-- dashboard inner -->
+            
+                        <div class="midde_cont">
+                            <div class="container-fluid">
+                               <div class="row column_title">
+                                  <div class="col-md-12">
+                                     <div class="page_title">
+                                        <h2>Display Members</h2>
+                                     </div>
+                                  </div>
+                               </div>
+             
+             
+             
+                               <!-- table -->
+                               <div class="col-md-12">
+                                  <div class="white_shd full margin_bottom_30">
+             
+                                     <div class="table_section padding_infor_info">
+                                        <div class="table-responsive-sm">
+                                           <div class="input-group mb-1">
+                                              <input type="text" class="form-control bg-light" placeholder="Search..."
+                                                 id="searchInput">
+                                              <div class="">
+                                                 <button class="btn btn-danger" type="button" onclick="searchTable()">Search</button>
+                                              </div>
+                                           </div>
+                                           <table class="table">
+                                              <thead class="thead-dark">
+                                                 <tr>
+                                                    <th>Firstname</th>
+                                                    <th>Lastname</th>
+                                                    <th>Address</th>
+                                                    <th>Phone Number</th>
+                                                    <th>Gender</th>
+                                                    <th>Edit</th>
+                                                    <th>Details</th>
+                                                    <th>Delete</th>
+                                                 </tr>
+                                              </thead>
+                                              <tbody>
+                                                 <tr>
+                                                    <td>John</td>
+                                                    <td>Doe</td>
+                                                    <td>john@example.com</td>
+                                                    <td>John</td>
+                                                    <td>Doe</td>
+                                                    <td><a href="./registerMember.html" class="text-danger">Edit</a>
+                                                    </td>
+                                                    <td><a href="#" class="text-danger">Details</a></td>
+                                                    <td><a href="#" class="text-danger">Delete</a></td>
+             
+                                                 </tr>
+                                                 <tr>
+                                                    <td>Mary</td>
+                                                    <td>Moe</td>
+                                                    <td>mary@example.com</td>
+                                                    <td>John</td>
+                                                    <td>Doe</td>
+                                                    <td><a href="./registerMember.html" class="text-danger">Edit</a></td>
+                                                    <td><a href="#" class="text-danger">Details</a></td>
+                                                    <td><a href="#" class="text-danger">Delete</a></td>
+                                                 </tr>
+             
+                                              </tbody>
+                                           </table>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+
+             
+                               <!-- footer -->
+                             
+                            </div>
+                            <!-- end dashboard inner -->
+                         </div>
+                    
+
+
+                    
+     
+
+
+{% endblock %}
