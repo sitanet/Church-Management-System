@@ -7,7 +7,7 @@ from django.db.models.fields.related import ForeignKey, OneToOneField
 
 # Create your models here.
 class UserManager(BaseUserManager):
-    def create_user(self, first_name, last_name, username, email, password=None):
+    def create_user(self, first_name, last_name, username, email, role, phone_number, password=None):
         if not email:
             raise ValueError('User must have an email address')
 
@@ -19,6 +19,8 @@ class UserManager(BaseUserManager):
             username = username,
             first_name = first_name,
             last_name = last_name,
+            role = role,
+            phone_number = phone_number,
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -31,6 +33,8 @@ class UserManager(BaseUserManager):
             password = password,
             first_name = first_name,
             last_name = last_name,
+            
+            
         )
         user.is_admin = True
         user.is_active = True
@@ -60,8 +64,6 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=12, blank=True)
-    gender = models.CharField(max_length=12, blank=True)
-    staff_id = models.CharField(max_length=12, blank=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICE, blank=True, null=True)
 
     # required fields
@@ -71,7 +73,7 @@ class User(AbstractBaseUser):
     modified_date = models.DateTimeField(auto_now=True)
     is_admin = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_superadmin = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
@@ -88,6 +90,14 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
+    def get_role(self):
+        if self.role == 1:
+            user_role = 'Admin'
+        elif self.role == 2:
+            user_role = 'Coordinator'
+        elif self.role == 3:
+            user_role = 'Team Member'
+        return user_role
 
 
 

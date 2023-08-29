@@ -20,7 +20,7 @@
                              <header>Registration</header>
 
 
-                             <form method="POST" enctype="multipart/form-data">
+                             <form method="POST" enctype="multipart/form-data" action="{% url 'registeruser'%}">
                               {% csrf_token %}
                       
                       
@@ -64,7 +64,7 @@
                                              <div class="input-field">
                                                 <label>Confirm Password*</label>
                                                 <!-- <input type="textarea" placeholder="Enter Address" name="address" > -->
-                                                {{form.password}}
+                                                {{form.confirm_password}}
                                              </div>
                       
                                             <div class="input-field">
@@ -75,11 +75,11 @@
                       
                                             <div class="input-field">
                                                 <label>Phone Number*</label>
-                                                <!-- <input type="date" placeholder="Enter birth date" name="date_of_birth" > -->
+                                               
                                                 {{form.phone_number}}
                                             </div>
                       
-                                            <div class="input-field">
+                                            <!-- <div class="input-field">
                                              <label>Gender</label>
                                              <select required name="gender">
                                                  <option disabled selected>Select Gender</option>
@@ -88,13 +88,13 @@
                                                 
                                                  
                                              </select>
-                                         </div>
-                      
+                                         </div> -->
+<!--                       
                                             <div class="input-field">
                                                 <label>Staff ID*</label>
-                                                <!-- <input type="number" placeholder="Enter mobile number" name="phone_no" > -->
+                                             
                                                 {{form.staff_id}}
-                                            </div>
+                                            </div> -->
                       
                                             <div class="input-field">
                                                 <label>Role*</label>
