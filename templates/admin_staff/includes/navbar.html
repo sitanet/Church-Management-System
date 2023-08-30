@@ -23,7 +23,7 @@
    <div class="sidebar_blog_2">
       <h4>General</h4>
       <ul class="list-unstyled components">
-         <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+         <li><a href="{% url 'myAccount' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
          </li>
          <li><a href="{% url 'register_member' %}"><i class="fa fa-user"></i> <span>Register
                   Member</span></a>
@@ -56,7 +56,7 @@
          <li><a href="{% url 'registeruser' %}"><i class="fa fa-users"></i> <span>Registered
                   Staffs</span></a></li>
 
-         <li><a href="#"><i class="fa fa-sign-out"></i> <span>Log Out</span></a>
+         <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> <span>Log Out</span></a>
          </li>
    </div>
 </nav>
@@ -90,7 +90,7 @@
                         <div class="dropdown-menu">
                            <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
                            <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
-                           <a class="dropdown-item" href="#"><span>Log Out</span> <i
+                           <a class="dropdown-item" href="{% url 'logout' %}"><span>Log Out</span> <i
                                  class="fa fa-sign-out"></i></a>
                         </div>
                      </li>

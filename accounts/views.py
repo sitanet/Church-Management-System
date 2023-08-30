@@ -5,14 +5,14 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils.http import urlsafe_base64_decode
 
-from accounts.utils import send_verification_email
+from accounts.utils import detectUser, send_verification_email
 
 
 from .forms import UserForm
 from .models import User, UserProfile
 from django.contrib import messages, auth
 # from .utils import detectUser, send_verification_email
-# from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 # from django.core.exceptions import PermissionDenied
 # from vendor.models import Vendor
@@ -22,22 +22,13 @@ import datetime
 
 # Create your views here.
 def registeruser(request):
-    #  if request.user.is_authenticated:
-    #     messages.warning(request, 'You are already logged in!')
-    #     return redirect('registeruser')
-     if request.method == 'POST':
+     if request.user.is_authenticated:
+        messages.warning(request, 'You are already logged in!')
+        return redirect('dashboard')
+     elif request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-            # Create the user using the form
-            # password = form.cleaned_data['password']
-            
-            # user = form.save(commit=False)
-            
-            # user.set_password(password)
-            
-            # user.save()
-
-            # Create the user using create_user method
+          
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             username = form.cleaned_data['username']
@@ -68,12 +59,23 @@ def registeruser(request):
     }
      return render(request, 'accounts/registeruser.html', context)
 
+@login_required(login_url='login')
+def myAccount(request):
+    user = request.user
+    redirectUrl = detectUser(user)
+    return redirect(redirectUrl)
 
+@login_required(login_url='login')
 def dashboard(request):
     return render(request, 'admin_staff/dashboard.html')
 
-def dashboard(request):
-    return render(request, 'admin_staff/dashboard.html')
+@login_required(login_url='login')
+def coor_dashboard(request):
+    return render(request, 'coordinators/coor_dashboard.html')
+
+@login_required(login_url='login')
+def team_dashboard(request):
+    return render(request, 'team_members/team_dashboard.html')
 
 
 
@@ -86,5 +88,27 @@ def change_password(request):
 
 
 
-# def login(request):
-#     return render(request, 'login.html')
+def login(request):
+    if request.user.is_authenticated:
+        messages.warning(request, 'You are already logged in!')
+        return redirect('myAccount')
+    elif request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user = auth.authenticate(email=email, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, 'You are now logged in.')
+            return redirect('myAccount')
+        else:
+            messages.error(request, 'Invalid login credentials')
+            return redirect('login')
+    return render(request, 'accounts/login.html')
+
+
+def logout(request):
+    auth.logout(request)
+    messages.info(request, 'You are logged in.')
+    return redirect('login')

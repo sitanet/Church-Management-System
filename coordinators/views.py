@@ -2,6 +2,8 @@ from django.shortcuts import render
 
 
 # Create your views here.
+
+
 def register_member(request):
     return render(request, 'coordinators/register_member.html')
 

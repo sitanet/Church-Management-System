@@ -2,8 +2,7 @@ from django.shortcuts import render
 
 
 # Create your views here.
-def dashboard(request):
-    return render(request, 'team_members/dashboard.html')
+
 
 
 def display_all_member(request):

@@ -1,6 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
+def dashboard(request):
+    return render(request, 'admin_staff/dashboard.html')
+
 def register_member(request):
     return render(request, 'admin_staff/register_member.html')
 
