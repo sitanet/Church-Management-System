@@ -4,20 +4,20 @@ from django.shortcuts import render
 # Create your views here.
 
 
-def register_member(request):
+def coor_register_member(request):
     return render(request, 'coordinators/register_member.html')
 
 
-def display_all_member(request):
+def coor_display_all_member(request):
     return render(request, 'coordinators/display_all_member.html')
 
 
-def display_comment(request):
+def coor_display_comment(request):
     return render(request, 'coordinators/display_comment.html')
 
 
 
-def new_comment(request):
+def coor_new_comment(request):
     return render(request, 'coordinators/new_comment.html')
 
 

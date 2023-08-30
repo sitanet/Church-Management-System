@@ -14,18 +14,39 @@ from django.contrib import messages, auth
 # from .utils import detectUser, send_verification_email
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-# from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied
 # from vendor.models import Vendor
 # from django.template.defaultfilters import slugify
 # from orders.models import Order
 import datetime
 
 # Create your views here.
+
+# Restrict the vendor from accessing the customer page
+def check_role_admin(user):
+    if user.role == 1:
+        return True
+    else:
+        raise PermissionDenied
+
+
+# Restrict the customer from accessing the vendor page
+def check_role_coordinator(user):
+    if user.role == 2:
+        return True
+    else:
+        raise PermissionDenied
+    
+def check_role_team_member(user):
+    if user.role == 3:
+        return True
+    else:
+        raise PermissionDenied
+@login_required(login_url='login')
+@user_passes_test(check_role_admin)
 def registeruser(request):
-     if request.user.is_authenticated:
-        messages.warning(request, 'You are already logged in!')
-        return redirect('dashboard')
-     elif request.method == 'POST':
+     
+     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
           
