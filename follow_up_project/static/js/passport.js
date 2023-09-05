@@ -32,3 +32,18 @@ const previewImage = (event) => {
         imagePreviewElement.style.display = "block";
     }
 };
+
+
+
+$(document).ready(function () {
+    $('#coordinator').change(function () {
+        var coordinator_id = $(this).val();
+        $.ajax({
+            url: '/get_team_members/',  // Create a Django view to fetch team members based on coordinator_id
+            data: { 'coordinator_id': coordinator_id },
+            success: function (data) {
+                $('#team_member').html(data);
+            }
+        });
+    });
+});

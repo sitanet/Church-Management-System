@@ -45,37 +45,23 @@
                                                  <tr>
                                                     <th>Firstname</th>
                                                     <th>Lastname</th>
-                                                    <th>Address</th>
+                                                
                                                     <th>Phone Number</th>
-                                                    <th>Gender</th>
-                                                    <th>Edit</th>
-                                                    <th>Details</th>
-                                                    <th>Delete</th>
+                                                   
+                                                    <th>Action</th>
+                                                   
                                                  </tr>
                                               </thead>
                                               <tbody>
-                                                 <tr>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>john@example.com</td>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td><a href="./registerMember.html" class="text-success">Edit</a>
-                                                    </td>
-                                                    <td><a href="#" class="text-success">Details</a></td>
-                                                    <td><a href="#" class="text-success">Delete</a></td>
-             
-                                                 </tr>
-                                                 <tr>
-                                                    <td>Mary</td>
-                                                    <td>Moe</td>
-                                                    <td>mary@example.com</td>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td><a href="./registerMember.html" class="text-success">Edit</a></td>
-                                                    <td><a href="#" class="text-success">Details</a></td>
-                                                    <td><a href="#" class="text-success">Delete</a></td>
-                                                 </tr>
+                                                {% for member in member %}
+                                                   <tr>
+                                                      <td>{{ member.first_name }}</td>
+                                                      <td>{{ member.last_name }}</td>
+                                                      <td>{{ member.phone_no }}</td>
+                                                      <td ><a href="{% url 'member_detail' member.id %}" style="font-weight: bold; color: blue;">Edit</a>/<a href="{% url 'delete_object' member.id %}" onclick="return confirm('Are you sure you want to delete ?')" style="font-weight: bold; color: red;">Delete</a>/<a href="{% url 'new_comment' member.id %}" style="font-weight: bold; color: green;">Comment</a></td>
+                                                   </tr>
+                                                   {% endfor %}
+                                            
              
                                               </tbody>
                                            </table>

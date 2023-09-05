@@ -4,7 +4,28 @@ from accounts.models import User
 
 
 
+
 # Create your models here.
+class Coordinator(models.Model):
+    # name = models.CharField(max_length=100)
+    name = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # def __str__(self):
+    #     return self.name
+
+    def __str__(self):
+        return str(self.name)
+
+class TeamMember(models.Model):
+    # name1 = models.CharField(max_length=15, blank=True, null=True)
+    coordinator = models.ForeignKey(Coordinator, on_delete=models.CASCADE)
+    name = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # def __str__(self):
+    #     return self.name
+
+    def __str__(self):
+        return str(self.name)
 
 class Member(models.Model):
     
@@ -30,15 +51,15 @@ class Member(models.Model):
     )
 
   
-    coordinator = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='coordinator')
-    team_member = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='team_member')
+    # coordinator = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='coordinator')
+    # team_member = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='team_member')
     # custom_id = models.CharField(primary_key = True, max_length=10, unique=True, default=custom_id)
     image = models.ImageField(upload_to='images/')
     first_name = models.CharField(max_length=50, blank=False, null=False , unique=True,)
     middle_name = models.CharField(max_length=20, blank=True, null=True)
     last_name = models.CharField(max_length=25, blank=True, null=True)
     date_of_birth = models.DateField(default=date.today, blank=True, null=True)
-    email = models.EmailField(max_length=40, blank=True, null=True)
+    email = models.EmailField(max_length=45, blank=True, null=True)
     phone_no = models.CharField(max_length=15, blank=True, null=True)
     gender = models.PositiveIntegerField(choices=GENDER, blank=True, null=True)
     marital_status = models.PositiveIntegerField(choices=MARITAL, blank=True, null=True)
@@ -53,6 +74,9 @@ class Member(models.Model):
     about = models.CharField(max_length=20, blank=True, null=True)
     dept = models.CharField(max_length=20, blank=True, null=True)
     purpose = models.CharField(max_length=20, blank=True, null=True)
+    coordinator = models.ForeignKey(Coordinator, on_delete=models.CASCADE)
+    team_member = models.ForeignKey(TeamMember, on_delete=models.CASCADE)
+    user = models.CharField(max_length=20, blank=True, null=True)
   
    
     
@@ -61,3 +85,32 @@ class Member(models.Model):
 
     def __str__(self):
         return self.first_name
+
+
+
+    
+
+class Comment(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='comments')
+    first_name = models.CharField(max_length=40, blank=False, null=False )
+    last_name = models.CharField(max_length=25, blank=True, null=True)
+    team_sup = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_created = models.DateField(default=date.today, blank=True, null=True)
+    comment = models.TextField()
+  
+   
+
+
+    def __str__(self):
+        return self.first_name
+
+
+
+
+
+
+# models.py
+
+
+
+

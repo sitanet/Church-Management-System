@@ -39,9 +39,14 @@
                             </div>
                       
                                         <div class="fields">
+                                           
+                                                <input type="hidden"  value="{{ member.team_sup.username}}" name="user" required>
+                                              
+                                          
                                             <div class="input-field">
                                                 <label>First Name*</label>
                                                 <input type="text" placeholder="Enter First Name" name="first_name" required>
+                                              
                                             </div>
                                              <div class="input-field">
                                                 <label>Middle Name</label>
@@ -71,6 +76,10 @@
                                                 <label>Email*</label>
                                                 <input type="Email" placeholder="Enter your Email" name="email" >
                                             </div>
+
+                                      
+
+                                          
                       
                                             <div class="input-field">
                                                 <label>Mobile Number*</label>
@@ -90,15 +99,7 @@
                                                 <label>Occupation*</label>
                                                 <input type="text" placeholder="Enter your occupation" name="occupation" >
                                             </div>
-                                        </div>
-                                    </div>
-                      
-                                    <div class="details ID">
-                                     
-                      
-                                        <div class="fields">
-                                           
-                      
+
                                             <div class="input-field">
                                                 <label>Wedding Anniversary</label>
                                                 <input type="date" placeholder="Enter Wedding Anniversary date" name="wedding_ann" >
@@ -108,8 +109,8 @@
                                                 <label>When did you Join TCGC</label>
                                                 <input type="date" placeholder="Enter date Join" name="join" >
                                             </div>
-                      
-                                              <div class="input-field">
+
+                                            <div class="input-field">
                                                 <label>Registration Date*</label>
                                                 <input type="date" name="reg_date" >
                                             </div>
@@ -118,10 +119,30 @@
                                                 <label>How did you know about TCGC</label>
                                                 <input type="text" placeholder="Enter How did you know about TCGC" name="about" >
                                             </div>
-                      
+
                                             <div class="input-field">
                                                 <label>Department/Unit</label>
                                                 <input type="text" placeholder="Department" name="dept" >
+                                            </div>
+
+                                            <div class="input-field">
+                                                <label>Coordinator</label>
+                                                <select id="coordinator" name="coordinator">
+                                                    <option value="">Select a Coordinator</option>
+                                                    {% for coordinator in coordinators %}
+                                                        <option value="{{ coordinator.id }}">{{ coordinator.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="input-field">
+                                                <label>Team Member</label>
+                                                <select id="team_member" name="team_member">
+                                                    <option value="">Select a Team Member</option>
+                                                    {% for team_members in team_members %}
+                                                        <option value="{{ team_members.coordinator_id }}">{{ team_members.name }}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                       
                                              <div class="input-field">
@@ -141,8 +162,9 @@
                                                     <option>Orogun Center</option>
                                                 </select>
                                             </div>
-                      
-                                             <div class="input-field">
+
+                                            
+                                            <div class="input-field">
                                                 <label>Purpose of Visit</label>
                                                 <select required name="purpose">
                                                     <option disabled selected>Select Marital Status</option>
@@ -155,10 +177,9 @@
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
                       
-                      
-                                           
-                                        </div>
+                                  
                       
                                     <button class="sumbit">
                                                 <span class="btnText">Submit</span>
@@ -169,22 +190,7 @@
                                     </div> 
                                 </div>
                       
-                                <div class="form second">
-                                    <div class="details address">
-                                       
-                      
-                              
-                                    </div>
-                      
-                                    <div class="details family">
-                                       
-                      
-                      
-                       
-                                          
-                      
-                       
-                                </div>
+                             
                             </form>
                      </div>
            

@@ -8,7 +8,16 @@ urlpatterns = [
     path('register_member/', views.register_member, name='register_member'),
     path('display_all_member/', views.display_all_member, name='display_all_member'),
     path('display_comment/', views.display_comment, name='display_comment'),
-    path('new_comment/', views.new_comment, name='new_comment'),
+    path('new_comment/<int:id>/', views.new_comment, name='new_comment'),
+    
+    path('member_detail/<int:id>/', views.member_detail, name='member_detail'),
+    path('delete_object/<int:id>/', views.delete_object, name='delete_object'),
+    # path('display_comment/', views.display_comment, name='display_comment'),
+   
+    
+    
+
+
     
  
     
