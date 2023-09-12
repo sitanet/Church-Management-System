@@ -2,13 +2,13 @@ from datetime import datetime
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import message
 from django.http.response import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import urlsafe_base64_decode
 
 from accounts.utils import detectUser, send_verification_email
 
 
-from .forms import UserForm
+from .forms import UserForm, UserProfileForm
 from .models import User, UserProfile
 from django.contrib import messages, auth
 # from .utils import detectUser, send_verification_email
@@ -100,9 +100,23 @@ def team_dashboard(request):
 
 
 
-def profile(request):
-    return render(request, 'accounts/profile.html')
+# def profile(request):
+#     return render(request, 'accounts/profile.html')
 
+
+
+# def profile(request):
+ 
+    
+#     if request.method == 'POST':
+#         form = UserForm(request.POST, request.FILES, instance=request.user)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('profile')
+#     else:
+#         form = UserForm(instance=request.user)
+      
+#     return render(request, 'accounts/profile.html', {'form': form})
 
 def change_password(request):
     return render(request, 'accounts/change_password.html')
@@ -133,3 +147,10 @@ def logout(request):
     auth.logout(request)
     messages.info(request, 'You are logged in.')
     return redirect('login')
+
+
+
+
+
+
+

@@ -48,20 +48,27 @@
                                                         <tr>
                                                             <th>Firstname</th>
                                                             <th>Lastname</th>
-                                                            <th>Phone Number</th>
+                                                            <th>Date</th>
+                                                            <th>Comment</th>
                                                             <th>Commented By</th>
-                                                            <th >Comment</th>
+                                                           
         
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for comment in comment %}
+                                                       
+
                                                         <tr>
                                                            <td>{{ comment.first_name }}</td>
                                                            <td>{{ comment.last_name }}</td>
-                                                           <td>{{ comment.comment }}</td>
+                                                           <td>{{ comment.date_created }}</td>
+                                                           <!-- <td>{{ comment.coor_comm }}</td> -->
+                                                           <td style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size: 15px; color: brown;">{{ comment.comment }}</td>
+                                                           <td>{{ comment.team_sup }}</td>
                                                            <!-- <td ><a href="#" style="font-weight: bold; color: blue;">Edit</a>/<a href="#" onclick="return confirm('Are you sure you want to delete ?')" style="font-weight: bold; color: red;">Delete</a>/<a href="#" style="font-weight: bold; color: green;">Comment</a></td> -->
                                                         </tr>
+                                                        
                                                         {% endfor %}
                                                  
                                                     </tbody>

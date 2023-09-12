@@ -37,7 +37,7 @@ class UserManager(BaseUserManager):
             
         )
         user.is_admin = True
-        user.is_active = True
+        user.is_active = False
         user.is_staff = True
         user.is_superadmin = True
         user.save(using=self._db)
@@ -105,15 +105,12 @@ class User(AbstractBaseUser):
 class UserProfile(models.Model):
     user = OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='users/profile_pictures', blank=True, null=True)
-    # cover_photo = models.ImageField(upload_to='users/cover_photos', blank=True, null=True)
+    
     address = models.CharField(max_length=250, blank=True, null=True)
     country = models.CharField(max_length=15, blank=True, null=True)
     state = models.CharField(max_length=15, blank=True, null=True)
     city = models.CharField(max_length=15, blank=True, null=True)
-    # pin_code = models.CharField(max_length=6, blank=True, null=True)
-    # latitude = models.CharField(max_length=20, blank=True, null=True)
-    # longitude = models.CharField(max_length=20, blank=True, null=True)
-    # location = gismodels.PointField(blank=True, null=True, srid=4326)
+   
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -123,5 +120,3 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.email
 
-
-  

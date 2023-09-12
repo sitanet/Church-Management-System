@@ -6,7 +6,7 @@ from accounts.models import User
 
 
 # Create your models here.
-class Coordinator(models.Model):
+class Team_Lead(models.Model):
     # name = models.CharField(max_length=100)
     name = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -15,15 +15,16 @@ class Coordinator(models.Model):
 
     def __str__(self):
         return str(self.name)
+    
+   
 
 class TeamMember(models.Model):
     # name1 = models.CharField(max_length=15, blank=True, null=True)
-    coordinator = models.ForeignKey(Coordinator, on_delete=models.CASCADE)
+    team_lead = models.ForeignKey(Team_Lead, on_delete=models.CASCADE)
     name = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # def __str__(self):
-    #     return self.name
-
+    #     return self.name\
     def __str__(self):
         return str(self.name)
 
@@ -36,6 +37,8 @@ class Member(models.Model):
     PRIVATE = 1
     STATE = 2
     FEDERAL = 3
+    ACTIVE = 1
+    INACTIVE = 2
     
     
     GENDER = (
@@ -47,6 +50,12 @@ class Member(models.Model):
     MARITAL = (
         (SINGLE, 'Single'),
         (MARRIED, 'Married'),
+       
+    )
+
+    STATUS = (
+        (ACTIVE, 'Active'),
+        (INACTIVE, 'Inactive'),
        
     )
 
@@ -70,18 +79,20 @@ class Member(models.Model):
     
     wedding_ann = models.CharField(max_length=30, blank=True, null=True)
     join = models.CharField(max_length=20, blank=True, null=True)
-    reg_date = models.CharField(max_length=20, blank=True, null=True)
+    # reg_date = models.CharField(max_length=20, blank=True, null=True)
     about = models.CharField(max_length=20, blank=True, null=True)
     dept = models.CharField(max_length=20, blank=True, null=True)
     purpose = models.CharField(max_length=20, blank=True, null=True)
-    coordinator = models.ForeignKey(Coordinator, on_delete=models.CASCADE)
-    team_member = models.ForeignKey(TeamMember, on_delete=models.CASCADE)
-    user = models.CharField(max_length=20, blank=True, null=True)
-  
-   
-    
-    
+    team_lead = models.CharField(max_length=20, blank=True, null=True)
+    team_member = models.CharField(max_length=20, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.PositiveIntegerField(choices=STATUS, default='1', blank=True)
 
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+  
+ 
 
     def __str__(self):
         return self.first_name
@@ -95,6 +106,7 @@ class Comment(models.Model):
     first_name = models.CharField(max_length=40, blank=False, null=False )
     last_name = models.CharField(max_length=25, blank=True, null=True)
     team_sup = models.ForeignKey(User, on_delete=models.CASCADE)
+    coor_comm = models.CharField(max_length=25, blank=True, null=True)
     date_created = models.DateField(default=date.today, blank=True, null=True)
     comment = models.TextField()
   

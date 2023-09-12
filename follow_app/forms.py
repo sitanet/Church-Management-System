@@ -1,7 +1,7 @@
 from django import forms
 
 from accounts.models import User
-from .models import Member, Comment
+from .models import Team_Lead, Member, Comment, TeamMember
 
 
 class MemberForm(forms.ModelForm):
@@ -12,7 +12,7 @@ class MemberForm(forms.ModelForm):
         model = Member
         fields = ['image','first_name','middle_name', 'last_name', 'date_of_birth','email', 'phone_no','gender',
                   'marital_status','occupation','address','nationality','kcc_center','wedding_ann',
-                  'join','reg_date','about','dept','purpose', 'coordinator', 'team_member', 'user']
+                  'join','about','dept','purpose', 'team_lead', 'team_member','status']
         # exclude = ['staff']
         # widgets = {
         #     'first_name': forms.TextInput(attrs={'placeholder': 'First Name'}),
@@ -34,7 +34,23 @@ class CommentForm(forms.ModelForm):
         
     class Meta:
         model = Comment
-        fields = ['first_name','last_name',  'comment']
+        fields = ['first_name','last_name',  'comment', 'coor_comm']
+
+
+
+class Team_LeadForm(forms.ModelForm):       
+        
+    class Meta:
+        model = Team_Lead
+        fields = ['name']
+
+
+
+class TeamMemberForm(forms.ModelForm):       
+        
+    class Meta:
+        model = TeamMember
+        fields = ['team_lead','name']
 
 
 

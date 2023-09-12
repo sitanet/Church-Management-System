@@ -48,18 +48,34 @@
 
    <script>
       $(document).ready(function()
-      {
-         var $coordinator=$('#coordinator'),
-             $team_member=$('#team_member'),
-             $options=$team_member.find('option');
-             $coordinator.on('change', function()
-             {
-               $team_member.html($options.filter('[value="'+this.value+'"]'));
-             }).trigger('change');
+         {
+            var $team_lead=$('#team_lead'),
+                $team_member=$('#team_member'),
+                $options=$team_member.find('option');
+                $team_lead.on('change', function()
+                {
+                  $team_member.html($options.filter('[value="'+this.value+'"]'));
+                }).trigger('change');
+   
+         
+   
+         });
 
-      
 
-      });
+      function ddlselect()
+{        var l = document.getElementById("team_lead");
+         var d = document.getElementById("team_member");
+
+         var outputText2 = l.options[l.selectedIndex].text;
+         var outputText = d.options[d.selectedIndex].text;
+         
+
+         document.getElementById("outputText2").value = outputText2;
+         document.getElementById("outputText").value = outputText;
+         
+
+};
+
 
    </script>
 

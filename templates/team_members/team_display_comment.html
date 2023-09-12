@@ -1,4 +1,4 @@
-{% extends 'coordinators/base.html' %}
+{% extends 'team_members/base.html' %}
 
 {% load static %}
 
@@ -9,7 +9,7 @@
 
                 
                        
-                        {% include 'coordinators/includes/alerts.html' %}
+                        {% include 'team_members/includes/alerts.html' %}
                         
                             {{ form.errors }}
                         
@@ -32,15 +32,14 @@
                                     <div class="white_shd full margin_bottom_30">
                                         <div class="table_section padding_infor_info">
         
-                                            <button type="submit" style="background-color: #FF4500; color:white;" class="btn  mb-2 shadow-sm"><a
-                                                    href="{% url 'new_comment' %}">New Comment</a></button>
+                                      
         
                                             <div class="table-responsive-sm">
                                                 <div class="input-group mb-1">
                                                     <input type="text" class="form-control bg-light" placeholder="Search..."
                                                         id="searchInput">
                                                     <div class="">
-                                                        <button class="btn " style="background-color: #FF4500; color:white;" type="button"
+                                                        <button class="btn" style="background-color: #FF4500;" type="button"
                                                             onclick="searchTable()">Search</button>
                                                     </div>
                                                 </div>
@@ -50,7 +49,7 @@
                                                             <th>Firstname</th>
                                                             <th>Lastname</th>
                                                             <th>Phone Number</th>
-                                                            <th class="text-success">Comment</th>
+                                                            <th class="text-danger">Comment</th>
         
                                                         </tr>
                                                     </thead>
@@ -59,14 +58,14 @@
                                                             <td>John</td>
                                                             <td>Doe</td>
                                                             <td>john@example.com</td>
-                                                            <td><a href="viewComments.html" class="text-success">View
+                                                            <td><a href="viewComments.html" class="text-danger">View
                                                                     Comments</a></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Mary</td>
                                                             <td>Moe</td>
                                                             <td>mary@example.com</td>
-                                                            <td><a href="viewComments.html" class="text-success">View
+                                                            <td><a href="viewComments.html" class="text-danger">View
                                                                     Comments</a></td>
         
                                                         </tr>

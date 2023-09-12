@@ -1,4 +1,4 @@
-{% extends 'team_members/base.html' %}
+{% extends 'admin_staff/base.html' %}
 
 {% load static %}
 
@@ -9,7 +9,7 @@
 
                 
                        
-                        {% include 'team_members/includes/alerts.html' %}
+                        {% include 'admin_staff/includes/alerts.html' %}
                         
                             {{ form.errors }}
                         
@@ -32,8 +32,7 @@
                                     <div class="white_shd full margin_bottom_30">
                                         <div class="table_section padding_infor_info">
         
-                                            <button type="submit" style="background-color: #FF4500;" class="btn  mb-2 shadow-sm"><a
-                                                    href="{% url 'new_comment' %}">New Comment</a></button>
+                                            
         
                                             <div class="table-responsive-sm">
                                                 <div class="input-group mb-1">
@@ -49,27 +48,28 @@
                                                         <tr>
                                                             <th>Firstname</th>
                                                             <th>Lastname</th>
-                                                            <th>Phone Number</th>
-                                                            <th class="text-danger">Comment</th>
+                                                            <th>Date</th>
+                                                            <th>Comment</th>
+                                                            <th>Commented By</th>
+                                                           
         
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        {% for comment in comment %}
+                                                       
+
                                                         <tr>
-                                                            <td>John</td>
-                                                            <td>Doe</td>
-                                                            <td>john@example.com</td>
-                                                            <td><a href="viewComments.html" class="text-danger">View
-                                                                    Comments</a></td>
+                                                           <td>{{ comment.first_name }}</td>
+                                                           <td>{{ comment.last_name }}</td>
+                                                           <td>{{ comment.date_created }}</td>
+                                                           <td style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size: 15px; color: brown;">{{ comment.comment }}</td>
+                                                           <td>{{ comment.team_sup }}</td>
+                                                           <!-- <td ><a href="#" style="font-weight: bold; color: blue;">Edit</a>/<a href="#" onclick="return confirm('Are you sure you want to delete ?')" style="font-weight: bold; color: red;">Delete</a>/<a href="#" style="font-weight: bold; color: green;">Comment</a></td> -->
                                                         </tr>
-                                                        <tr>
-                                                            <td>Mary</td>
-                                                            <td>Moe</td>
-                                                            <td>mary@example.com</td>
-                                                            <td><a href="viewComments.html" class="text-danger">View
-                                                                    Comments</a></td>
-        
-                                                        </tr>
+                                                        
+                                                        {% endfor %}
+                                                 
                                                     </tbody>
                                                 </table>
                                             </div>

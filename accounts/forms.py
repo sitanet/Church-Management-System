@@ -4,21 +4,21 @@ from .validators import allow_only_images_validator
 
 
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
-    confirm_password = forms.CharField(widget=forms.PasswordInput())
-    # first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter First Name', 'required': 'required'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter First Name', 'required': 'required'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter First Name', 'required': 'required'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter First Name', 'required': 'required'}))
     # middle_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Middle Name', 'required': 'required'}))
-    # last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Last Name', 'required': 'required'}))
-    # username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Username ', 'required': 'required'}))
-    # email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Email', 'required': 'required'}))
-    # phone_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Phone Number', 'required': 'required'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Last Name', 'required': 'required'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Username ', 'required': 'required'}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Email', 'required': 'required'}))
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Phone Number', 'required': 'required'}))
     # gender = forms.CharField(widget=forms.TextInput(attrs={}))
     # staff_id = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Staff ID', 'required': 'required'}))
     # role = forms.Select()
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'role', 'password', 'phone_number']
+        fields = ['first_name', 'last_name', 'username', 'email', 'role', 'password']
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
@@ -32,18 +32,18 @@ class UserForm(forms.ModelForm):
         
 
 
-# class UserProfileForm(forms.ModelForm):
-#     address = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Start typing...', 'required': 'required'}))
-#     profile_picture = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images_validator])
-#     cover_photo = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images_validator])
+class UserProfileForm(forms.ModelForm):
+    # address = forms.CharField(widget=forms.TextInput())
+    profile_picture = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images_validator])
+    cover_photo = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images_validator])
     
     
-#     class Meta:
-#         model = UserProfile
-#         fields = ['profile_picture', 'cover_photo', 'address', 'country', 'state', 'city', 'pin_code', 'latitude', 'longitude']
+    class Meta:
+        model = UserProfile
+        fields = ['profile_picture', 'cover_photo', 'address', 'country', 'state']
 
-#     def __init__(self, *args, **kwargs):
-#         super(UserProfileForm, self).__init__(*args, **kwargs)
-#         for field in self.fields:
-#             if field == 'latitude' or field == 'longitude':
-#                 self.fields[field].widget.attrs['readonly'] = 'readonly'
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if field == 'latitude' or field == 'longitude':
+                self.fields[field].widget.attrs['readonly'] = 'readonly'

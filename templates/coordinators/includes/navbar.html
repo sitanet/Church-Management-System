@@ -36,13 +36,13 @@
                   class="fa fa-diamond purple_color"></i> <span>Report</span></a>
             <ul class="collapse list-unstyled" id="element">
                <li><a href="{% url 'coor_display_all_member' %}">> <span>Display All Member</span></a></li>
-               <!-- <li><a href="displaySingleMember.html">> <span>Single Member</span></a></li> -->
+               <li><a href="{% url 'my_team_member_list' %}">> <span>Display Team List</span></a></li>
+               <li><a href="{% url 'my_team_member_comment' %}">> <span>Display Team Comment</span></a></li>
                
             </ul>
          </li>
-         <!-- <li><a href="{% url 'coor_new_comment' %}">> <span>Comments</span></a></li> -->
-         <!-- <li><a href="registeredStaff.html"><i class="fa fa-users"></i> <span>Registered
-                  Staffs</span></a></li> -->
+
+        
 
          <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> <span>Log Out</span></a>
          </li>

@@ -61,14 +61,18 @@
                                         <div class="contact_inner">
  
                                            <!-- form -->
-                                           <form action="#" class="mt-4">
+                                        
+                                             <form method="POST" enctype="multipart/form-data" class="mt-4">
+                                                {% csrf_token %}
  
                                               <div class="form-row">
                                                  <div class="form-group col-md-6">
                                                     <label for="fName">Staff Fullname</label>
-                                                    <input type="text" class="form-control bg-light"
-                                                       placeholder="Fullname">
-                                                 </div>
+                                                    <input type="text" class="form-control bg-light" name="first_name" value="{{form.first_name}}">
+                                                    {{form.first_name}}
+                                                    
+                                                   </div>
+                                                   
  
                                                  <div class="form-group col-md-6">
                                                     <label for="address">Email Address</label>
