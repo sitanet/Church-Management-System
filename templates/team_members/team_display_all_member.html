@@ -45,12 +45,11 @@
                                                  <tr>
                                                     <th>Firstname</th>
                                                     <th>Lastname</th>
-                                                    <th>Address</th>
+                                                   
                                                     <th>Phone Number</th>
-                                                    <th>Gender</th>
-                                                    <th>Edit</th>
-                                                    <th>Details</th>
-                                                    <th>Delete</th>
+                                                    <th>Team Member</th>
+                                                   
+                                                    <th>Action</th>
                                                  </tr>
                                               </thead>
                                               <tbody>
@@ -59,7 +58,8 @@
                                                       <td>{{ member.first_name }}</td>
                                                       <td>{{ member.last_name }}</td>
                                                       <td>{{ member.phone_no }}</td>
-                                                      <td ><a href="{% url 'member_detail' member.id %}" style="font-weight: bold; color: blue;">Edit</a>/<a href="{% url 'delete_member' member.id %}" onclick="return confirm('Are you sure you want to delete ?')" style="font-weight: bold; color: red;">Delete</a>/<a href="{% url 'coor_new_comment' member.id %}" style="font-weight: bold; color: green;">Comment</a></td>
+                                                      <td>{{ member.team_member }}</td>
+                                                      <td ><a href="{% url 'member_detail' member.id %}" style="font-weight: bold; color: blue;"></a><a href="{% url 'delete_member' member.id %}" onclick="return confirm('Are you sure you want to delete ?')" style="font-weight: bold; color: red;"></a><a href="{% url 'team_new_comment' member.id %}" style="font-weight: bold; color: green;">Comment</a></td>
                                                    </tr>
                                                    {% endfor %}
                                             

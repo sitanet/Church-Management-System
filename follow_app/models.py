@@ -67,7 +67,8 @@ class Member(models.Model):
     first_name = models.CharField(max_length=50, blank=False, null=False , unique=True,)
     middle_name = models.CharField(max_length=20, blank=True, null=True)
     last_name = models.CharField(max_length=25, blank=True, null=True)
-    date_of_birth = models.DateField(default=date.today, blank=True, null=True)
+    date_of_birth = models.CharField(max_length=15, blank=True, null=True)
+
     email = models.EmailField(max_length=45, blank=True, null=True)
     phone_no = models.CharField(max_length=15, blank=True, null=True)
     gender = models.PositiveIntegerField(choices=GENDER, blank=True, null=True)
@@ -106,6 +107,7 @@ class Comment(models.Model):
     first_name = models.CharField(max_length=40, blank=False, null=False )
     last_name = models.CharField(max_length=25, blank=True, null=True)
     team_sup = models.ForeignKey(User, on_delete=models.CASCADE)
+    team_mem = models.CharField(max_length=50, blank=True, null=True)
     coor_comm = models.CharField(max_length=25, blank=True, null=True)
     date_created = models.DateField(default=date.today, blank=True, null=True)
     comment = models.TextField()

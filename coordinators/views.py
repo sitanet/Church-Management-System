@@ -41,11 +41,11 @@ def coor_register_member(request):
             # kcc_center = form.cleaned_data['kcc_center']
             # wedding_ann = form.cleaned_data['wedding_ann']
             # join = form.cleaned_data['join']
-            # reg_date = form.cleaned_data['reg_date']
+            # # reg_date = form.cleaned_data['reg_date']
             # about = form.cleaned_data['about']
             # dept = form.cleaned_data['dept']
             # purpose = form.cleaned_data['purpose']
-            # taem_lead = form.cleaned_data['taem_lead']
+            # team_lead = form.cleaned_data['team_lead']
             # team_member = form.cleaned_data['team_member']
             
             # customer = Customer(first_name=first_name,middle_name=middle_name,last_name=last_name,date_of_birth=date_of_birth,email=email,phone_no=phone_no,gender=gender,marital_status=marital_status,occupation=occupation,district=district,acct_off=acct_off,id_type=id_type,id_no=id_no,issued_authority=issued_authority,issued_state=issued_state,expiry_date=expiry_date,address=address,nationality=nationality,state=state,local_govt=local_govt,city=city,landmark=landmark,next_of_kin=next_of_kin,next_address=next_address,next_phone_no=next_phone_no,type_of_account=type_of_account, customer= True)
@@ -54,6 +54,7 @@ def coor_register_member(request):
             # member.staff = staff.objects.get(user=request.user)
             # user = staff.objects.get(user=request.user)
             form = form.save(commit=False)
+            
             form.user = request.user
           
             form.save()
@@ -72,7 +73,7 @@ def coor_register_member(request):
        
         form = MemberForm()
         current_user = request.user
-        team_lead = Team_Lead.objects.filter(team_sup=current_user)
+        team_lead = Team_Lead.objects.filter(name=current_user)
         team_members = TeamMember.objects.all()
         member = User.objects.all()
        
@@ -94,10 +95,28 @@ def coor_register_member(request):
     return render(request, 'coordinators/coor_register_member.html', context)
 
 
+
+def coor_member_detail(request, id):
+    member = get_object_or_404(Member, id=id)
+    
+    if request.method == 'POST':
+        form = MemberForm(request.POST, request.FILES, instance=member)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Account has been Updated successfully!.')
+            return redirect('coor_display_all_member')
+    else:
+        form = MemberForm(instance=member)
+        current_user = request.user
+        team_lead = Team_Lead.objects.filter(name=current_user)
+        team_members = TeamMember.objects.all()
+    return render(request, 'coordinators/coor_member_detail.html', {'form': form, 'member': member, 'team_lead': team_lead, 'team_members': team_members,})
+
+
 @user_passes_test(check_role_coordinator)
 def coor_display_comment(request):
     current_user = request.user
-    comment = Comment.objects.filter(team_sup=current_user)
+    comment = Comment.objects.filter(coor_comm=current_user)
     mem_com = Member.objects.all()
     context = {
          'comment':comment,
@@ -110,7 +129,7 @@ def coor_display_comment(request):
 @user_passes_test(check_role_coordinator)
 def coor_display_all_member(request):
     current_user = request.user
-    member = Member.objects.filter(user=current_user)
+    member = Member.objects.filter(user=current_user).filter(status='1')
 
     return render(request, 'coordinators/coor_display_all_member.html', {'member': member})
 

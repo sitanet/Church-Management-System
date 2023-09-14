@@ -162,6 +162,22 @@ def delete_member(request, id):
 @login_required(login_url='login')
 @user_passes_test(check_role_admin)
 
+# def member_detail(request, id):
+#     member = get_object_or_404(Member, id=id)
+    
+#     if request.method == 'POST':
+#         form = MemberForm(request.POST, request.FILES, instance=member)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('display_all_member')
+#     else:
+#         form = MemberForm(instance=member)
+#         coordinators = Team_Lead.objects.all()
+#         team_members = TeamMember.objects.all()
+#     return render(request, 'admin_staff/member_detail.html', {'form': form, 'member': member, 'coordinators': coordinators, 'team_members': team_members,})
+
+@login_required(login_url='login')
+@user_passes_test(check_role_admin)
 def member_detail(request, id):
     member = get_object_or_404(Member, id=id)
     
@@ -169,12 +185,14 @@ def member_detail(request, id):
         form = MemberForm(request.POST, request.FILES, instance=member)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Account has been Updated successfully!.')
             return redirect('display_all_member')
     else:
         form = MemberForm(instance=member)
-        coordinators = Team_Lead.objects.all()
+        current_user = request.user
+        team_lead = Team_Lead.objects.all()
         team_members = TeamMember.objects.all()
-    return render(request, 'admin_staff/member_detail.html', {'form': form, 'member': member, 'coordinators': coordinators, 'team_members': team_members,})
+    return render(request, 'admin_staff/member_detail.html', {'form': form, 'member': member, 'team_lead': team_lead, 'team_members': team_members,})
 
 
 # def member_detail(request, id):
@@ -265,23 +283,56 @@ def new_comment(request, id):
     return render(request, 'admin_staff/new_comment.html', context)
 
 
-@login_required(login_url='login')
-@user_passes_test(check_role_admin)
-def add_coordinator(request, id):
-    member = get_object_or_404(Member, id=id)
-    coordinator = Member.objects.get(id=id)
-    if request.method == 'POST':
-        form = Team_LeadForm(request.POST)
-        if form.is_valid():
-            coordinator = form.save(commit=False)
+# @login_required(login_url='login')
+# @user_passes_test(check_role_admin)
+# def add_coordinator(request, id):
+#     member = get_object_or_404(Member, id=id)
+#     coordinator = Member.objects.get(id=id)
+#     if request.method == 'POST':
+#         form = Team_LeadForm(request.POST)
+#         if form.is_valid():
+#             coordinator = form.save(commit=False)
             
-            coordinator.save()
-            return redirect('add_coordinator')
+#             coordinator.save()
+#             return redirect('add_coordinator')
    
+#     else:
+#         form = Team_LeadForm()
+#     context = {
+#          'member':member,
+#          'form':form,   
+#      }
+#     return render(request, 'admin_staff/add_coordinator.html', context)
+
+
+
+
+def add_coordinator(request):
+    if request.method == 'POST':
+        form = Team_LeadForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+
+        # Save the Coordinator to the database
+          
+             form.save()
+             messages.success(request, 'Account has been registered successfully!.')
+             return redirect('add_coordinator')
+        else:
+            messages.warning(request, form.errors)
+            messages.warning(request, 'Please Check the form filed and fill them before submission!.')
+            return redirect('add_coordinator')
+            # print('invalid form')
+            
     else:
-        form = Team_LeadForm()
-    context = {
-         'member':member,
-         'form':form,   
-     }
-    return render(request, 'admin_staff/add_coordinator.html', context)
+       
+        form = MemberForm()
+        team_lead = User.objects.filter(role='2')
+        
+        context = {
+             'form': form,
+             'team_lead': team_lead,
+            
+        }
+
+    return render(request, "admin_staff/add_coordinator.html", context)

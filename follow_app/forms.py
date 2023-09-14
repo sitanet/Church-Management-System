@@ -34,7 +34,7 @@ class CommentForm(forms.ModelForm):
         
     class Meta:
         model = Comment
-        fields = ['first_name','last_name',  'comment', 'coor_comm']
+        fields = ['first_name','last_name',  'comment', 'coor_comm','team_mem']
 
 
 

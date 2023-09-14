@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
-from accounts.models import User
+from accounts.models import User, UserProfile
 
 from accounts.views import check_role_team_member
 from follow_app.forms import CommentForm, MemberForm
@@ -10,87 +10,29 @@ from django.contrib import messages
 
 from follow_app.models import Team_Lead, Member, TeamMember
 from follow_app.models import Comment
-
+from django.db.models import Q
 
 
 # Create your views here.
 
 
 
-@user_passes_test(check_role_team_member)
-def team_register_member(request):
-    
-    if request.method == 'POST':
-        form = MemberForm(request.POST, request.FILES)
-        if form.is_valid():
-            # type_of_account = form.cleaned_data['type_of_account']
-            image = form.cleaned_data['image']
-            first_name = form.cleaned_data['first_name']
-            middle_name = form.cleaned_data['middle_name']
-            last_name = form.cleaned_data['last_name']
-            date_of_birth = form.cleaned_data['date_of_birth']
-            email = form.cleaned_data['email']
-            phone_no = form.cleaned_data['phone_no']
-            gender = form.cleaned_data['gender']
-            marital_status = form.cleaned_data['marital_status']
-            occupation = form.cleaned_data['occupation']
-       
-            address = form.cleaned_data['address']
-            nationality = form.cleaned_data['nationality']
-         
-            kcc_center = form.cleaned_data['kcc_center']
-            wedding_ann = form.cleaned_data['wedding_ann']
-            join = form.cleaned_data['join']
-            reg_date = form.cleaned_data['reg_date']
-            about = form.cleaned_data['about']
-            dept = form.cleaned_data['dept']
-            purpose = form.cleaned_data['purpose']
-            team_lead = form.cleaned_data['team_lead']
-            team_member = form.cleaned_data['team_member']
-            
-            # customer = Customer(first_name=first_name,middle_name=middle_name,last_name=last_name,date_of_birth=date_of_birth,email=email,phone_no=phone_no,gender=gender,marital_status=marital_status,occupation=occupation,district=district,acct_off=acct_off,id_type=id_type,id_no=id_no,issued_authority=issued_authority,issued_state=issued_state,expiry_date=expiry_date,address=address,nationality=nationality,state=state,local_govt=local_govt,city=city,landmark=landmark,next_of_kin=next_of_kin,next_address=next_address,next_phone_no=next_phone_no,type_of_account=type_of_account, customer= True)
-            # member = form.save(commit=False)
-            
-            # member.staff = staff.objects.get(user=request.user)
-            # user = staff.objects.get(user=request.user)
-            form = form.save(commit=False)
-            form.user = request.user
-          
-            form.save()
-            messages.success(request, 'Account has been registered successfully!.')
-            return redirect('team_display_all_member')
-        else:
-            messages.warning(request, form.errors)
-            messages.warning(request, 'Please Check the form filed and fill them before submission!.')
-            return redirect('team_register_member')
-            # print('invalid form')
-    else:
-        form = MemberForm()
-        team_lead = Team_Lead.objects.all()
-        team_members = TeamMember.objects.all()
-        member = User.objects.all()
-        # cust_coa = Coa.objects.raw("select * from chart_of_accounts_coa where right(gl_no,3) = '200'")
-        context = {
-             'form': form,
-             'team_lead': team_lead,
-             'team_members': team_members,
-             'member': member,
-          
-            
-        }
-   
 
-    return render(request, 'team_members/team_register_member.html', context)
 
 
 @user_passes_test(check_role_team_member)
 def team_display_comment(request):
     current_user = request.user
-    comment = Comment.objects.filter(team_sup=current_user)
     mem_com = Member.objects.all()
+    # user_profile = UserProfile.objects.get(user=current_user)
+    # comment = Comment.objects.filter(Q(team_sup=current_user) & Q(coor_comm=user_profile))
+    comment = Comment.objects.filter(team_mem=current_user)
+  
+    
     context = {
-         'comment':comment,
          'mem_com':mem_com,
+         'comment':comment,
+         
          
      } 
     return render(request, 'team_members/team_display_comment.html', context)
@@ -99,7 +41,7 @@ def team_display_comment(request):
 @user_passes_test(check_role_team_member)
 def team_display_all_member(request):
     current_user = request.user
-    member = Member.objects.filter(team_member=current_user)
+    member = Member.objects.filter(team_member=current_user).filter(status='1')
 
     return render(request, 'team_members/team_display_all_member.html', {'member': member})
 
@@ -107,25 +49,6 @@ def team_display_all_member(request):
 # def coor_display_comment(request):
 #     return render(request, 'coordinators/display_comment.html')
 
-
-
-
-@login_required(login_url='login')
-@user_passes_test(check_role_team_member)
-
-def team_member_detail(request, id):
-    member = get_object_or_404(Member, id=id)
-    
-    if request.method == 'POST':
-        form = MemberForm(request.POST, request.FILES, instance=member)
-        if form.is_valid():
-            form.save()
-            return redirect('team_display_all_member')
-    else:
-        form = MemberForm(instance=member)
-        taem_lead = Team_Lead.objects.all()
-        team_members = TeamMember.objects.all()
-    return render(request, 'team_members/team_member_detail.html', {'form': form, 'member': member, 'taem_lead': taem_lead, 'team_members': team_members,})
 
 
 @login_required(login_url='login')
