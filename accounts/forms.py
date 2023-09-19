@@ -18,7 +18,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'role', 'password']
+        fields = ['profile_picture','first_name', 'last_name', 'username', 'email', 'role', 'password']
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
@@ -33,17 +33,15 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
-    # address = forms.CharField(widget=forms.TextInput())
-    profile_picture = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images_validator])
-    cover_photo = forms.FileField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}), validators=[allow_only_images_validator])
+   
+
     
     
     class Meta:
         model = UserProfile
-        fields = ['profile_picture', 'cover_photo', 'address', 'country', 'state']
+        fields = []
 
-    def __init__(self, *args, **kwargs):
-        super(UserProfileForm, self).__init__(*args, **kwargs)
-        for field in self.fields:
-            if field == 'latitude' or field == 'longitude':
-                self.fields[field].widget.attrs['readonly'] = 'readonly'
+class UserProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['profile_picture']

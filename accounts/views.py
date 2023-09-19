@@ -6,9 +6,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import urlsafe_base64_decode
 
 from accounts.utils import detectUser, send_verification_email
+from follow_app.models import Member
 
 
-from .forms import UserForm, UserProfileForm
+from .forms import UserForm, UserProfileForm, UserProfilePictureForm
 from .models import User, UserProfile
 from django.contrib import messages, auth
 # from .utils import detectUser, send_verification_email
@@ -88,15 +89,63 @@ def myAccount(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-    return render(request, 'admin_staff/dashboard.html')
+    member = Member.objects.filter(status=1).count()
+    member_inctive = Member.objects.filter(status=2).count()
+    member_male = Member.objects.filter(gender=1).count()
+    member_female = Member.objects.filter(gender=2).count()
+    member_single = Member.objects.filter(marital_status=1).count()
+    member_married = Member.objects.filter(marital_status=2).count()
+    
+
+    context = {
+        'member': member,
+        'member_inctive': member_inctive,
+        'member_male': member_male,
+        'member_female': member_female,
+        'member_single': member_single,
+        'member_married': member_married,
+    }
+    return render(request, 'admin_staff/dashboard.html', context)
 
 @login_required(login_url='login')
 def coor_dashboard(request):
-    return render(request, 'coordinators/coor_dashboard.html')
+    member = Member.objects.filter(status=1).filter(team_lead=request.user).count()
+    member_inctive = Member.objects.filter(status=2).filter(team_lead=request.user).count()
+    member_male = Member.objects.filter(gender=1).filter(team_lead=request.user).count()
+    member_female = Member.objects.filter(gender=2).filter(team_lead=request.user).count()
+    member_single = Member.objects.filter(marital_status=1).filter(team_lead=request.user).count()
+    member_married = Member.objects.filter(marital_status=2).filter(team_lead=request.user).count()
+    
+
+    context = {
+        'member': member,
+        'member_inctive': member_inctive,
+        'member_male': member_male,
+        'member_female': member_female,
+        'member_single': member_single,
+        'member_married': member_married,
+    }
+    return render(request, 'coordinators/coor_dashboard.html', context)
 
 @login_required(login_url='login')
 def team_dashboard(request):
-    return render(request, 'team_members/team_dashboard.html')
+    member = Member.objects.filter(status=1).filter(team_member=request.user).count()
+    member_inctive = Member.objects.filter(status=2).filter(team_member=request.user).count()
+    member_male = Member.objects.filter(gender=1).filter(team_member=request.user).count()
+    member_female = Member.objects.filter(gender=2).filter(team_member=request.user).count()
+    member_single = Member.objects.filter(marital_status=1).filter(team_member=request.user).count()
+    member_married = Member.objects.filter(marital_status=2).filter(team_member=request.user).count()
+    
+
+    context = {
+        'member': member,
+        'member_inctive': member_inctive,
+        'member_male': member_male,
+        'member_female': member_female,
+        'member_single': member_single,
+        'member_married': member_married,
+    }
+    return render(request, 'team_members/team_dashboard.html', context)
 
 
 
@@ -150,7 +199,60 @@ def logout(request):
 
 
 
+# def profile(request):
+   
+#     return render(request, 'accounts/profile.html')
 
+
+# def profile(request):
+#     if request.method == 'POST':
+#         form = UserForm(request.POST, request.FILES, instance=request.user)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('profile')  # Redirect to the user's profile page
+#     else:
+#         form = UserForm(instance=request.user)
+#     return render(request, 'accounts/profile.html', {'form': form})
+
+
+
+
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfilePictureForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.info(request, 'Updated.')
+            return redirect('profile')  # Redirect to the user's profile page
+    else:
+        form = UserProfilePictureForm(instance=request.user)
+    return render(request, 'accounts/profile.html', {'form': form})
+
+
+
+# def profile(request):
+#     profile = get_object_or_404(UserProfile, user=request.user)
+#     if request.method == 'POST':
+#         profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+#         user_form = UserProfileForm(request.POST, instance=request.user)
+#         if profile_form.is_valid:
+#             profile_form.save()
+#             user_form.save()
+#             messages.success(request, 'Profile updated')
+#             return redirect('profile')
+#         else:
+#             print(profile_form.errors)
+#             print(user_form.errors)
+#     else:
+#         profile_form = UserProfileForm(instance=profile)
+#         user_form = UserForm(instance=request.user)
+
+#     context = {
+#         'profile_form': profile_form,
+#         'user_form' : user_form,
+#         'profile': profile,
+#     }
+#     return render(request, 'accounts/profile.html', context)
 
 
 

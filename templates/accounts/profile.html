@@ -4,9 +4,9 @@
 
 {% block content %}
       
-            {% include 'admin_staff/includes/alerts.html' %}
+           
                                     
-            {{ form.errors }}
+           
               
             <div class="midde_cont">
                 <div class="container-fluid">
@@ -32,21 +32,21 @@
                                   <!-- profile image -->
                                   <div class="col-lg-12">
                                      <div>
-                                        <div class="m-auto text-center" id="passport-display">
-                                           <!-- Passport photo will be displayed here -->
-                                        </div>
+                                         <!-- Passport photo will be displayed here -->
+                                        <!-- <div class="m-auto text-center" id="passport-display">
+                                         
+                                        </div> -->
+                                        {% include 'admin_staff/includes/alerts.html' %}
+                                        {{ form.errors }}
+                                     
                                         <form id="upload-form" enctype="multipart/form-data">
-                                           <div class="profile-img form-group m-auto text-center">
-                                              <label for="passport" class="ps-4">Upload Passport Photo:</label>
-                                              <input type="file" class="form-control-file text-danger" id="passport"
-                                                 name="passport">
-                                           </div>
+                                          
                                         </form>
                                      </div>
  
                                      <style>
                                         #passport-display img {
-                                           border-radius: 50%;
+                                           border-radius: 20%;
                                            width: 100px;
                                         }
  
@@ -61,63 +61,53 @@
                                         <div class="contact_inner">
  
                                            <!-- form -->
+                                         
                                         
                                              <form method="POST" enctype="multipart/form-data" class="mt-4">
                                                 {% csrf_token %}
+
+                                                <div class="profile-img form-group m-auto text-center">
+                                                   <label for="passport" class="ps-4">Upload Passport Photo: <img class="img-responsive" src="{{ user.profile_picture.url }}" alt="#" onerror="this.src='{% static 'images/avatar.jpg' %}'"/></label>
+                                                   <input type="file" class="form-control-file text-danger" id="passport"
+                                                      name="profile_picture" >
+                                                      <!-- {{form.profile_picture}} -->
+                                                </div>
  
                                               <div class="form-row">
                                                  <div class="form-group col-md-6">
                                                     <label for="fName">Staff Fullname</label>
-                                                    <input type="text" class="form-control bg-light" name="first_name" value="{{form.first_name}}">
-                                                    {{form.first_name}}
+                                                    <input type="text" class="form-control bg-light" name="first_name" value="{{ user.first_name}} {{ user.last_name}}">
+                                                    
                                                     
                                                    </div>
-                                                   
+                                                  
  
                                                  <div class="form-group col-md-6">
                                                     <label for="address">Email Address</label>
                                                     <input type="email" class="form-control bg-light"
-                                                       placeholder="Email Address">
+                                                       placeholder="Email Address" value="{{ user.email}}">
                                                  </div>
                                                  <div class="form-group col-md-6">
                                                     <label for="Phone">Phone Number</label>
                                                     <input type="tel" class="form-control bg-light"
-                                                       placeholder="Email Address">
+                                                       placeholder="Phone Number" value="{{ user.phone_number}}">
                                                  </div>
+                                               
  
-                                                 <div class="form-group col-md-6">
-                                                    <label for="marital">Marital Stutus</label>
-                                                    <select class="form-control bg-light" name="marital" id="" required>
-                                                       <option value="">Select Marital Stutus</option>
-                                                       <option value="male">Single</option>
-                                                       <option value="female">Marriage</option>
-                                                       <option value="female">Others</option>
- 
-                                                    </select>
-                                                 </div>
-                                                 <div class="form-group col-md-6">
-                                                    <label for="gender">Gender</label>
-                                                    <select class="form-control bg-light" name="gender" id="" required>
-                                                       <option value="">Select Gender</option>
-                                                       <option value="male">Male</option>
-                                                       <option value="female">Female</option>
-                                                    </select>
-                                                 </div>
-                                                 <div class="form-group col-md-6">
-                                                    <label for="occupation">Occupation</label>
+                                                
+                                             
+                                                
+                                                <div class="form-group col-md-6">
+                                                    <label for="id">Country</label>
                                                     <input type="text" class="form-control bg-light"
-                                                       placeholder="Occupation">
-                                                 </div>
-                                                 <div class="form-group col-md-6">
-                                                    <label for="id">ID Number</label>
-                                                    <input type="text" class="form-control bg-light"
-                                                       placeholder="ID Number">
-                                                 </div>
-                                                 <div class="form-group col-md-6">
-                                                    <label for="email">Department</label>
+                                                       placeholder="Country" value="{{ user.username}}">
+                                                 </div> 
+
+                                                 <!-- <div class="form-group col-md-6">
+                                                    <label for="email">State</label>
                                                     <input type="email" class="form-control bg-light"
-                                                       placeholder="Email Address">
-                                                 </div>
+                                                       placeholder="State">
+                                                 </div>  -->
                                               </div>
                                               <button type="submit"
                                                  class="btn w-100 btn-danger mt-4 shadow-sm">Submit</button>

@@ -62,7 +62,7 @@ class User(AbstractBaseUser):
         (TEAM_MEMBER, 'Team Member'),
     )
 
-   
+    profile_picture = models.ImageField(upload_to='users/profile_pictures', default='images/avatar.jpg')
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
@@ -108,7 +108,7 @@ class User(AbstractBaseUser):
 
 class UserProfile(models.Model):
     user = OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='users/profile_pictures', blank=True, null=True)
+    # profile_picture = models.ImageField(upload_to='users/profile_pictures', blank=True, null=True)
     
     
     address = models.CharField(max_length=250, blank=True, null=True)

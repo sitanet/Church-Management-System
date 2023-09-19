@@ -17,10 +17,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 # Create your views here.
-@login_required(login_url='login')
-@user_passes_test(check_role_admin)
-def dashboard(request):
-    return render(request, 'admin_staff/dashboard.html')
+
+# def dashboard(request):
+#     member = Member.objects.count()
+#     return render(request, 'admin_staff/dashboard.html', {'member': member})
 
 # @user_passes_test(check_role_admin)
 # @login_required(login_url='login')
@@ -28,6 +28,13 @@ def dashboard(request):
 #     return render(request, 'admin_staff/register_member.html')
 
 
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_admin)
+def profile(request):
+    profile = UserProfile.objects.all()
+    return render(request, 'accounts/profile.html', {'profile': profile})
 
 @login_required(login_url='login')
 @user_passes_test(check_role_admin)
@@ -336,3 +343,10 @@ def add_coordinator(request):
         }
 
     return render(request, "admin_staff/add_coordinator.html", context)
+
+
+
+
+# def count_data(request):
+#     member_count = Member.objects.count()
+#     return render(request, 'admin_staff/dashboard.html', {'member_count': member_count})

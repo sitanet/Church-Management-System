@@ -954,7 +954,7 @@ a[data-toggle="collapse"] {
 }
 
 .user_img img {
-  border-radius: 100% 100%;
+  border-radius: 50% 100%;
 }
 
 .user_info {
@@ -1153,7 +1153,7 @@ a[data-toggle="collapse"] {
 
 .counter_no p.total_no {
   margin: 0;
-  font-size: 45px;
+  
   float: left;
   width: 100%;
   line-height: normal;

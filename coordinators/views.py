@@ -23,36 +23,7 @@ def coor_register_member(request):
        
         if form.is_valid():
             
-            # type_of_account = form.cleaned_data['type_of_account']
-            # image = form.cleaned_data['image']
-            # first_name = form.cleaned_data['first_name']
-            # middle_name = form.cleaned_data['middle_name']
-            # last_name = form.cleaned_data['last_name']
-            # date_of_birth = form.cleaned_data['date_of_birth']
-            # email = form.cleaned_data['email']
-            # phone_no = form.cleaned_data['phone_no']
-            # gender = form.cleaned_data['gender']
-            # marital_status = form.cleaned_data['marital_status']
-            # occupation = form.cleaned_data['occupation']
-       
-            # address = form.cleaned_data['address']
-            # nationality = form.cleaned_data['nationality']
-         
-            # kcc_center = form.cleaned_data['kcc_center']
-            # wedding_ann = form.cleaned_data['wedding_ann']
-            # join = form.cleaned_data['join']
-            # # reg_date = form.cleaned_data['reg_date']
-            # about = form.cleaned_data['about']
-            # dept = form.cleaned_data['dept']
-            # purpose = form.cleaned_data['purpose']
-            # team_lead = form.cleaned_data['team_lead']
-            # team_member = form.cleaned_data['team_member']
-            
-            # customer = Customer(first_name=first_name,middle_name=middle_name,last_name=last_name,date_of_birth=date_of_birth,email=email,phone_no=phone_no,gender=gender,marital_status=marital_status,occupation=occupation,district=district,acct_off=acct_off,id_type=id_type,id_no=id_no,issued_authority=issued_authority,issued_state=issued_state,expiry_date=expiry_date,address=address,nationality=nationality,state=state,local_govt=local_govt,city=city,landmark=landmark,next_of_kin=next_of_kin,next_address=next_address,next_phone_no=next_phone_no,type_of_account=type_of_account, customer= True)
-            # member = form.save(commit=False)
-            
-            # member.staff = staff.objects.get(user=request.user)
-            # user = staff.objects.get(user=request.user)
+           
             form = form.save(commit=False)
             
             form.user = request.user
