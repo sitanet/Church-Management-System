@@ -4,9 +4,9 @@
 
 {% block content %}
       
-            {% include 'coordinators/includes/alerts.html' %}
+            
                                     
-            {{ form.errors }}
+            <!-- {{ form.errors }} -->
               
 
                   <div class="midde_cont">
@@ -18,6 +18,8 @@
                              </div>
                           </div>
                        </div>
+
+                       {% include 'coordinators/includes/alerts.html' %}
                        <div class="row column1">
                           <div class="col-md-6 col-lg-4">
                              <div class="full counter_section margin_bottom_30">
