@@ -35,10 +35,16 @@
                                                 placeholder="Last Name" required readonly>
                               </div>
                               <div class="form-group m-auto col-md-6">
-                                    <label for="lname">Coordinator <span
-                                                class="text-danger">*</span></label>
+                                    <!-- <label for="lname">Phone No <span
+                                                class="text-danger">*</span></label> -->
+                                                <input type="text" class="form-control bg-light" name="phone_no"  value="{{member.phone_no}}"
+                                                 required readonly hidden>
+                              </div>
+                              <div class="form-group m-auto col-md-6">
+                                    <!-- <label for="lname">Coordinator <span
+                                                class="text-danger">*</span></label> -->
                                                 <input type="text" class="form-control bg-light" name="coor_comm"  value="{{member.team_lead}}"
-                                                placeholder="Last Name" required readonly>
+                                                placeholder="Last Name" required readonly hidden>
                               </div>
                               <!-- <div class="form-group m-auto col-md-6">
                                     <label for="lname">Post By <span

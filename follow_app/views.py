@@ -1,8 +1,10 @@
+from email.message import EmailMessage
 import os
 from sre_constants import BRANCH
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
+from accounts.utils import send_verification_email
 
 from accounts.views import check_role_admin, check_role_coordinator
 from .models import Team_Lead, TeamMember
@@ -14,6 +16,8 @@ from django.shortcuts import render, get_object_or_404
 from accounts.models import User, UserProfile
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -82,8 +86,36 @@ def register_member(request):
             form.user = request.user
           
             form.save()
+
+           # Send email with template
+            recipient_email = request.POST.get('email')
+            recipient_name = request.POST.get('first_name')
+            subject = 'Thank you for Coming'
+            
+            # Render the HTML email template
+            html_message = render_to_string(
+                'accounts/email/welcome_email.html',
+                {
+                    'recipient_name': recipient_name,
+                
+                }
+            )
+
+        # Send the email
+            send_mail(
+                subject,
+                '',
+                'sitanetglobaltech@gmail.com',
+                [recipient_email],
+                fail_silently=False,
+                html_message=html_message,
+            )
+
+        
             messages.success(request, 'Account has been registered successfully!.')
             return redirect('display_all_member')
+            
+        
         
     
         

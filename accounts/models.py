@@ -50,16 +50,18 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     ADMIN = 1
-    COORDINATOR = 2
+    TEAM_LEAD = 2
     TEAM_MEMBER = 3
+    PASTORATE = 4
 
     MALE = 1
     FEMALE = 2
 
     ROLE_CHOICE = (
         (ADMIN, 'Admin'),
-        (COORDINATOR, 'Coordinator'),
+        (TEAM_LEAD, 'Team Lead'),
         (TEAM_MEMBER, 'Team Member'),
+        (PASTORATE, 'Pastorate'),
     )
 
     profile_picture = models.ImageField(upload_to='users/profile_pictures', default='images/avatar.jpg')
@@ -98,9 +100,11 @@ class User(AbstractBaseUser):
         if self.role == 1:
             user_role = 'Admin'
         elif self.role == 2:
-            user_role = 'Coordinator'
+            user_role = 'Team Lead'
         elif self.role == 3:
             user_role = 'Team Member'
+        elif self.role == 4:
+            user_role = 'Pastorate'
         return user_role
 
 

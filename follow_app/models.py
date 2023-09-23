@@ -106,6 +106,7 @@ class Comment(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='comments')
     first_name = models.CharField(max_length=40, blank=False, null=False )
     last_name = models.CharField(max_length=25, blank=True, null=True)
+    phone_no = models.CharField(max_length=25, blank=True, null=True)
     team_sup = models.ForeignKey(User, on_delete=models.CASCADE)
     team_mem = models.CharField(max_length=50, blank=True, null=True)
     coor_comm = models.CharField(max_length=25, blank=True, null=True)

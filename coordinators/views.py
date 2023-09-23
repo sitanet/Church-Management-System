@@ -9,6 +9,8 @@ from django.contrib import messages
 
 from follow_app.models import Team_Lead, Member, TeamMember
 from follow_app.models import Comment
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -29,8 +31,34 @@ def coor_register_member(request):
             form.user = request.user
           
             form.save()
+
+            recipient_email = request.POST.get('email')
+            recipient_name = request.POST.get('first_name')
+            subject = 'Thank you for Coming'
+            
+            # Render the HTML email template
+            html_message = render_to_string(
+                'accounts/email/welcome_email.html',
+                {
+                    'recipient_name': recipient_name,
+                
+                }
+            )
+
+        # Send the email
+            send_mail(
+                subject,
+                '',
+                'The CityGate Church Follow Up Unit',
+                [recipient_email],
+                fail_silently=False,
+                html_message=html_message,
+            )
+
+        
             messages.success(request, 'Account has been registered successfully!.')
             return redirect('coor_display_all_member')
+            
         
     
         
@@ -138,7 +166,7 @@ def coor_new_comment(request, id):
 @user_passes_test(check_role_coordinator)
 def my_team_member_list(request):
     current_user = request.user
-    member = Member.objects.filter(taem_lead=current_user)
+    member = Member.objects.filter(team_lead=current_user)
     context = {
          'member':member,
      } 
