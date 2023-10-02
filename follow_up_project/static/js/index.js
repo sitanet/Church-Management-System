@@ -61,3 +61,29 @@ document
   });
 // Newly Added JS End Here
 
+document.getElementById("file-upload").addEventListener("input", function (event) {
+  const fileInput = event.target;
+  const maxFileSizeInBytes = 50 * 1024; // Max size
+  const errorMessage = document.getElementById("error-message");
+
+  if (fileInput.files && fileInput.files[0]) {
+    const fileSize = fileInput.files[0].size;
+
+    if (fileSize > maxFileSizeInBytes) {
+      errorMessage.textContent =
+        "Passport photo size exceeds the maximum allowed size (50KB). Please select a smaller file.";
+      fileInput.value = null;
+    } else {
+      errorMessage.textContent = "";
+      const passportDisplay = document.getElementById("preview-selected-image");
+
+      //image element
+      const uploadedPassport = document.createElement("img");
+      uploadedPassport.src = URL.createObjectURL(fileInput.files[0]);
+      uploadedPassport.classList.add("img-fluid");
+
+      passportDisplay.innerHTML = "";
+      passportDisplay.appendChild(uploadedPassport);
+    }
+  }
+});

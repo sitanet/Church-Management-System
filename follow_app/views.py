@@ -1,5 +1,6 @@
 from email.message import EmailMessage
 import os
+import socket
 from sre_constants import BRANCH
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
@@ -18,7 +19,10 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
-
+from django.shortcuts import render
+from django.utils import timezone
+from follow_app.models import Member
+from .tasks import send_birthday_wish_email
 
 # Create your views here.
 
@@ -31,7 +35,9 @@ from django.core.mail import send_mail
 # def register_member(request):
 #     return render(request, 'admin_staff/register_member.html')
 
-
+def network_not_available(request):
+    
+    return render(request, 'admin_staff/network_not_available.html')
 
 
 @login_required(login_url='login')
@@ -47,105 +53,89 @@ def register_member(request):
     if request.method == 'POST':
         form = MemberForm(request.POST, request.FILES)
         
-        
-       
-        if form.is_valid():
-            
-            # type_of_account = form.cleaned_data['type_of_account']
-            # image = form.cleaned_data['image']
-            # first_name = form.cleaned_data['first_name']
-            # middle_name = form.cleaned_data['middle_name']
-            # last_name = form.cleaned_data['last_name']
-            # date_of_birth = form.cleaned_data['date_of_birth']
-            # email = form.cleaned_data['email']
-            # phone_no = form.cleaned_data['phone_no']
-            # gender = form.cleaned_data['gender']
-            # marital_status = form.cleaned_data['marital_status']
-            # occupation = form.cleaned_data['occupation']
-       
-            # address = form.cleaned_data['address']
-            # nationality = form.cleaned_data['nationality']
-         
-            # kcc_center = form.cleaned_data['kcc_center']
-            # wedding_ann = form.cleaned_data['wedding_ann']
-            # join = form.cleaned_data['join']
-            # # reg_date = form.cleaned_data['reg_date']
-            # about = form.cleaned_data['about']
-            # dept = form.cleaned_data['dept']
-            # purpose = form.cleaned_data['purpose']
-            # team_lead = form.cleaned_data['team_lead']
-            # team_member = form.cleaned_data['team_member']
-            
-            # customer = Customer(first_name=first_name,middle_name=middle_name,last_name=last_name,date_of_birth=date_of_birth,email=email,phone_no=phone_no,gender=gender,marital_status=marital_status,occupation=occupation,district=district,acct_off=acct_off,id_type=id_type,id_no=id_no,issued_authority=issued_authority,issued_state=issued_state,expiry_date=expiry_date,address=address,nationality=nationality,state=state,local_govt=local_govt,city=city,landmark=landmark,next_of_kin=next_of_kin,next_address=next_address,next_phone_no=next_phone_no,type_of_account=type_of_account, customer= True)
-            # member = form.save(commit=False)
-            
-            # member.staff = staff.objects.get(user=request.user)
-            # user = staff.objects.get(user=request.user)
-            form = form.save(commit=False)
-            
-            form.user = request.user
-          
-            form.save()
+        try:
 
-           # Send email with template
-            recipient_email = request.POST.get('email')
-            recipient_name = request.POST.get('first_name')
-            subject = 'Thank you for Coming'
-            
-            # Render the HTML email template
-            html_message = render_to_string(
-                'accounts/email/welcome_email.html',
-                {
-                    'recipient_name': recipient_name,
+            socket.create_connection(("8.8.8.8", 53), timeout=3)
+            is_network_connected = True
+        except OSError:
+            is_network_connected = False
+
+        if is_network_connected:
+       
+            if form.is_valid():
                 
-                }
-            )
-
-        # Send the email
-            send_mail(
-                subject,
-                '',
-                'sitanetglobaltech@gmail.com',
-                [recipient_email],
-                fail_silently=False,
-                html_message=html_message,
-            )
-
-        
-            messages.success(request, 'Account has been registered successfully!.')
-            return redirect('display_all_member')
             
-        
-        
-    
-        
+                form = form.save(commit=False)
+                
+                form.user = request.user
+                
+                form.save()
+
+            # Send email with template
+                recipient_email = request.POST.get('email')
+                recipient_name = request.POST.get('first_name')
+                subject = 'Thank you for Coming'
+                
+                # Render the HTML email template
+                html_message = render_to_string(
+                    'accounts/email/welcome_email.html',
+                    {
+                        'recipient_name': recipient_name,
+                    
+                    }
+                )
+
+            # Send the email
+                send_mail(
+                    subject,
+                    '',
+                    'The CityGate Church Followup Unit',
+                    [recipient_email],
+                    fail_silently=False,
+                    html_message=html_message,
+                )
+
+            
+                messages.success(request, 'Account has been registered successfully!.')
+                return redirect('display_all_member')
+            else:
+                    messages.warning(request, form.errors)
+                    messages.warning(request, 'Please Check the form filed and fill them before submission!.')
+                    return redirect('register_member')
+                    # print('invalid form')
+                
         else:
-            messages.warning(request, form.errors)
-            messages.warning(request, 'Please Check the form filed and fill them before submission!.')
-            return redirect('register_member')
-            # print('invalid form')
+            # Network is not connected, handle accordingly (e.g., raise an exception or log)
+            return redirect('network_not_available')
+                
             
+            
+        
+            
+        
+                
     else:
-       
-        form = MemberForm()
-        team_lead = Team_Lead.objects.all()
-        team_members = TeamMember.objects.all()
-        member = User.objects.all()
-       
+        
+            form = MemberForm()
+            team_lead = Team_Lead.objects.all()
+            team_members = TeamMember.objects.all()
+            member = User.objects.all()
+        
 
-        
-        # cust_coa = Coa.objects.raw("select * from chart_of_accounts_coa where right(gl_no,3) = '200'")
-        
-        
-        context = {
-             'form': form,
-             'team_lead': team_lead,
-             'team_members': team_members,
-             'member': member,
-          
             
-        }
-   
+            # cust_coa = Coa.objects.raw("select * from chart_of_accounts_coa where right(gl_no,3) = '200'")
+            
+            
+            context = {
+                'form': form,
+                'team_lead': team_lead,
+                'team_members': team_members,
+                'member': member,
+            
+                
+            }
+       
+    
 
     return render(request, 'admin_staff/register_member.html', context)
 
@@ -382,3 +372,13 @@ def add_coordinator(request):
 # def count_data(request):
 #     member_count = Member.objects.count()
 #     return render(request, 'admin_staff/dashboard.html', {'member_count': member_count})
+
+
+def send_birthday_wishes(request):
+    today = timezone.now().date()
+    customers_with_birthday = Member.objects.filter(date_of_birth=today)
+
+    for customer in customers_with_birthday:
+        send_birthday_wish_email.delay(customer.email, customer.first_name)
+
+    return render(request, 'admin_staff/birthday_sent.html')

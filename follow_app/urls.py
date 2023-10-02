@@ -14,6 +14,7 @@ urlpatterns = [
     path('member_detail/<int:id>/', views.member_detail, name='member_detail'),
     path('delete_member/<int:id>/', views.delete_member, name='delete_member'),
     path('add_coordinator/', views.add_coordinator, name='add_coordinator'),
+    path('network_not_available/', views.network_not_available, name='network_not_available'),
     
    
     
