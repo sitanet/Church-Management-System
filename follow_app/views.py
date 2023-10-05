@@ -22,7 +22,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from django.utils import timezone
 from follow_app.models import Member
-from .tasks import send_birthday_wish_email
+# from .tasks import send_birthday_wish_email
 
 # Create your views here.
 
@@ -374,11 +374,11 @@ def add_coordinator(request):
 #     return render(request, 'admin_staff/dashboard.html', {'member_count': member_count})
 
 
-def send_birthday_wishes(request):
-    today = timezone.now().date()
-    customers_with_birthday = Member.objects.filter(date_of_birth=today)
+# def send_birthday_wishes(request):
+#     today = timezone.now().date()
+#     customers_with_birthday = Member.objects.filter(date_of_birth=today)
 
-    for customer in customers_with_birthday:
-        send_birthday_wish_email.delay(customer.email, customer.first_name)
+#     for customer in customers_with_birthday:
+#         send_birthday_wish_email.delay(customer.email, customer.first_name)
 
-    return render(request, 'admin_staff/birthday_sent.html')
+#     return render(request, 'admin_staff/birthday_sent.html')
