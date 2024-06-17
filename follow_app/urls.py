@@ -8,6 +8,9 @@ urlpatterns = [
     # path('profile/', views.profile, name='profile'),
     path('register_member/', views.register_member, name='register_member'),
     path('display_all_member/', views.display_all_member, name='display_all_member'),
+    path('display_kbn_business/', views.display_kbn_business, name='display_kbn_business'),
+    path('display_kbn_car/', views.display_kbn_car, name='display_kbn_car'),
+    
     path('display_comment/', views.display_comment, name='display_comment'),
     path('all_comment/', views.all_comment, name='all_comment'),
     path('new_comment/<int:id>/', views.new_comment, name='new_comment'),
@@ -56,6 +59,16 @@ urlpatterns = [
     path('business_list/', views.business_list, name='business_list'),
     path('business_detail/<int:pk>/', views.business_detail, name='business_detail'),
     path('business/<int:pk>/delete/', views.business_delete, name='business_delete'),
+
+    
+    path('member_female/', views.member_female, name='member_female'),
+    path('family/', views.family, name='family'),
+    path('member_married/', views.member_married, name='member_married'),
+    path('member_single/', views.member_single, name='member_single'),
+    path('children/', views.children, name='children'),
+    path('display_kbn_business_admin/', views.display_kbn_business_admin, name='display_kbn_business_admin'),
+    path('display_kbn_car_admin/', views.display_kbn_car_admin, name='display_kbn_car_admin'),
+
 
     
  

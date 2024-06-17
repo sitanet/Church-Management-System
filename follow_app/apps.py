@@ -1,26 +1,12 @@
 from django.apps import AppConfig
+import logging
 
-
-class FollowAppConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'follow_app'
-
-
-
-# follow_app/apps.py
-
-
-
-
-
-# follow_app/apps.py
-
-# from django.apps import AppConfig
+logger = logging.getLogger(__name__)
 
 class FollowAppConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
     name = 'follow_app'
 
     def ready(self):
-        from follow_app.scheduler import start
-        start()
+        logger.info("Starting the scheduler...")
+        from . import scheduler
+        scheduler.start()

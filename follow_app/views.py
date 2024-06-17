@@ -9,7 +9,7 @@ from accounts.forms import UserForm
 from accounts.utils import send_verification_email
 
 from accounts.views import check_role_admin, check_role_coordinator
-from .models import Team_Lead, TeamMember
+from .models import Children, Team_Lead, TeamMember
 # from accounts.context_processors import get_staff
 from .forms import Team_LeadForm, MemberForm, CommentForm
 from .models import Member, Comment
@@ -149,9 +149,21 @@ def display_all_member(request):
     member = Member.objects.all()
     return render(request, 'admin_staff/display_all_member.html', {'member': member})
 
-    
+
+@login_required(login_url='login')
+@user_passes_test(check_role_admin) 
+
+def display_kbn_business(request):
+    member = Business.objects.all()
+    return render(request, 'admin_staff/display_kbn_business.html', {'member': member})
 
 
+@login_required(login_url='login')
+@user_passes_test(check_role_admin) 
+
+def display_kbn_car(request):
+    member = Career.objects.all()
+    return render(request, 'admin_staff/display_kbn_car.html', {'member': member})
 
 
 @login_required(login_url='login')
@@ -443,7 +455,7 @@ def list_members_car_kbn(request):
 
 
 @login_required(login_url='login')
-@user_passes_test(check_role_coordinator)
+@user_passes_test(check_role_admin)
 def list_members_bus_kbn(request):
     members = Member.objects.all()
     return render(request, 'coordinators/list_members_bus_kbn.html', {'members': members})
@@ -488,7 +500,10 @@ def create_family(request, member_id):
         if family_form.is_valid():
             family = family_form.save(commit=False)
             family.husband = member
+            family.team_lead = request.user.role
+            family.team_member = request.POST.get('team_member') 
             family.wife_id = request.POST['wife_id']
+
             family.save()
 
             children_data = request.POST.getlist('children')
@@ -799,10 +814,81 @@ def kbn_success(request):
 
 
 
-
-
 from django.shortcuts import render, get_object_or_404
 from .models import Career
+
+# def member_male(request):
+#     member_male = Member.objects.filter(gender=1).filter(team_lead=request.user.role)
+#     return render(request, 'admin_staff/member_male.html', {'member_male': member_male})
+
+
+
+
+def member_male(request):
+    member_male = Member.objects.filter(gender=1)
+    return render(request, 'admin_staff/member_male.html', {'member_male': member_male})
+
+
+def member_female(request):
+    member_female = Member.objects.filter(gender=2)
+    return render(request, 'admin_staff/member_female.html', {'member_female': member_female})
+
+
+
+
+def family(request):
+    member = Family.objects.all()
+    return render(request, 'admin_staff/list_family.html', {'member': member})
+
+
+
+
+
+
+def member_married(request):
+    member_married = Member.objects.filter(marital_status=2)
+    return render(request, 'admin_staff/member_married.html', {'member_married': member_married})
+
+
+
+
+def member_single(request):
+    member_single = Member.objects.filter(marital_status=1)
+    return render(request, 'admin_staff/member_single.html', {'member_single': member_single})
+
+
+
+
+def children(request):
+    children = Children.objects.all()
+    return render(request, 'admin_staff/children.html', {'children': children})
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_admin) 
+
+def display_kbn_business_admin(request):
+    member = Business.objects.all()
+    return render(request, 'admin_staff/display_kbn_business.html', {'member': member})
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_admin) 
+
+def display_kbn_car_admin(request):
+    member = Career.objects.all()
+    return render(request, 'admin_staff/display_kbn_car.html', {'member': member})
+
+
+
+
 
 def career_list(request):
     careers = Career.objects.all()

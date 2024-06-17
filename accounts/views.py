@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import urlsafe_base64_decode
 
 from accounts.utils import detectUser, send_verification_email
-from follow_app.models import Family, Member
+from follow_app.models import Business, Career, Family, Member
 
 
 from .forms import UserForm, UserProfileForm, UserProfilePictureForm
@@ -219,6 +219,13 @@ def dashboard(request):
     member_female = Member.objects.filter(gender=2).count()
     member_single = Member.objects.filter(marital_status=1).count()
     member_married = Member.objects.filter(marital_status=2).count()
+
+    member_family = Family.objects.all().count()
+    member_children = Member.objects.filter(marital_status=4).count()
+    member_teenager = Member.objects.filter(marital_status=3).count()
+  
+    member_business = Business.objects.all().count()
+    member_career = Career.objects.all().count()
     
 
     context = {
@@ -228,6 +235,15 @@ def dashboard(request):
         'member_female': member_female,
         'member_single': member_single,
         'member_married': member_married,
+        
+        'member_family':member_family,
+        'member_children':member_children,
+        'member_teenager':member_teenager,
+        'member_business':member_business,
+        'member_career':member_career,
+
+
+
     }
     return render(request, 'admin_staff/dashboard.html', context)
 
@@ -238,7 +254,12 @@ def coor_dashboard(request):
     member_male = Member.objects.filter(gender=1).filter(team_lead=request.user.role).count()
     member_female = Member.objects.filter(gender=2).filter(team_lead=request.user.role).count()
     member_single = Member.objects.filter(marital_status=1).filter(team_lead=request.user.role).count()
-    # member_married = Family.objects.filter(team_lead=request.user.role).count()
+    member_family = Family.objects.all().count()
+    member_children = Member.objects.filter(marital_status=4).filter(team_lead=request.user.role).count()
+    member_teenager = Member.objects.filter(marital_status=3).count()
+    member_married = Member.objects.filter(marital_status=2).filter(team_lead=request.user.role).count()
+    member_business = Business.objects.all().count()
+    member_career = Career.objects.all().count()
     
 
     context = {
@@ -247,7 +268,13 @@ def coor_dashboard(request):
         'member_male': member_male,
         'member_female': member_female,
         'member_single': member_single,
-        'member_married': member_married,
+        'member_family': member_family,
+        'member_children':member_children,
+        'member_married':member_married,
+        'member_business':member_business,
+        'member_career':member_career,
+        'member_teenager':member_teenager,
+        
     }
     return render(request, 'coordinators/coor_dashboard.html', context)
 
@@ -260,7 +287,12 @@ def past_dashboard(request):
     member_male = Member.objects.filter(gender=1).count()
     member_female = Member.objects.filter(gender=2).count()
     member_single = Member.objects.filter(marital_status=1).count()
+    member_family = Family.objects.all().count()
+    member_children = Member.objects.filter(marital_status=4).count()
+    member_teenager = Member.objects.filter(marital_status=3).count()
     member_married = Member.objects.filter(marital_status=2).count()
+    member_business = Business.objects.all().count()
+    member_career = Career.objects.all().count()
     
 
     context = {
@@ -270,6 +302,12 @@ def past_dashboard(request):
         'member_female': member_female,
         'member_single': member_single,
         'member_married': member_married,
+        'member_family':member_family,
+        'member_children':member_children,
+        'member_teenager':member_teenager,
+        'member_business':member_business,
+        'member_career':member_career,
+
     }
     return render(request, 'pastorate/past_dashboard.html', context)
 
@@ -467,7 +505,7 @@ def member_inctive(request):
 
 
 def member_male(request):
-    member_male = Member.objects.filter(gender=1).count()
+    member_male = Member.objects.filter(gender=1)
     context = {
         'member_male': member_male,
     }

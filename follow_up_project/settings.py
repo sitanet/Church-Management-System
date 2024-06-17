@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import sys
 import os
 from pathlib import Path
+
+from decouple import config
 # from decouple import config
 
 
@@ -201,29 +203,30 @@ MEDIA_ROOT = '/home2/thecity2/public_html/followtheminchrist/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# settings.py
+from decouple import config
 
-# EMAIL_HOST= config('EMAIL_HOST')
-# EMAIL_PORT= config('EMAIL_PORT', cast=int)
-# EMAIL_HOST_USER= config('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD= config('EMAIL_HOST_PASSWORD')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool)
+
+
+
+# EMAIL_HOST= 'smtp.gmail.com'
+# EMAIL_PORT= 587
+# EMAIL_HOST_USER='sitanetglobaltech@gmail.com'
+# # EMAIL_HOST_PASSWORD= 'fgegffwquvukiprs'
+# EMAIL_HOST_PASSWORD= 'ipudrjbwheuzrxsw'
 # EMAIL_USE_TLS = True
 # DEFAULT_FROM_EMAIL = 'TCGC Followup Team'
 
 
-EMAIL_HOST= 'smtp.gmail.com'
-EMAIL_PORT= 587
-EMAIL_HOST_USER='sitanetglobaltech@gmail.com'
-# EMAIL_HOST_PASSWORD= 'fgegffwquvukiprs'
-EMAIL_HOST_PASSWORD= 'ipudrjbwheuzrxsw'
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'TCGC Followup Team'
-
-
 # Twilio settings
-TWILIO_ACCOUNT_SID = 'AC0320290d9bbd6e4de68d2a0032c87e8a'
-TWILIO_AUTH_TOKEN = '98af496cc50db558be25032d88bdafee'
-TWILIO_PHONE_NUMBER = '+12073864340'
+
 
 
 

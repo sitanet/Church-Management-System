@@ -23,17 +23,17 @@
    <div class="sidebar_blog_2">
       <h4>General</h4>
       <ul class="list-unstyled components">
-         <li><a href="{% url 'myAccount' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+         <li><a href="{% url 'myAccount' %}"><i class="fa fa-dashboard" style="color: #FF5733;"></i> <span>Dashboard</span></a>
          </li>
-         <li><a href="{% url 'admin_registration' %}"><i class="fa fa-user"></i> <span>Registration</span></a>
-         </li>
-         <li><a href="{% url 'display_comment' %}"><i class="fa fa-user"></i> <span>Comments</span></a>
+         <!-- <li><a href="{% url 'admin_registration' %}"><i class="fa fa-user"style="color: #33FF57;"></i> <span>Registration</span></a>
+         </li> -->
+         <li><a href="{% url 'display_comment' %}"><i class="fa fa-user" style="color: #3357FF;"></i> <span>Comments</span></a>
    </li>
 
          <li>
             <li>
                <a href="#element" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
-                       class="fa fa-diamond purple_color"></i>
+                       class="fa fa-diamond purple_color" style="color: #FFA833;"></i>
                    <span>Report</span></a>
                <ul class="collapse list-unstyled" id="element">
                    <li><a href="{% url 'display_all_member' %}">> <span>Display All Member</span></a></li>
@@ -47,7 +47,7 @@
                <li><a href="displayComment.html">> <span>Comments</span></a></li>
             </ul>
          </li>
-         <li><a href="{% url 'registeruser' %}"><i class="fa fa-users"></i> <span>Registered
+         <li><a href="{% url 'registeruser' %}"><i class="fa fa-users" style="color: #FF5733;"></i> <span>Registered
                   Staffs</span></a></li>
 
          <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> <span>Log Out</span></a>

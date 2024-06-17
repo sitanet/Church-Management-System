@@ -7,7 +7,7 @@ from accounts.views import check_role_coordinator, check_role_pastorate
 from follow_app.forms import CommentForm, MemberForm
 from django.contrib import messages
 
-from follow_app.models import Team_Lead, Member, TeamMember
+from follow_app.models import Business, Career, Children, Family, Team_Lead, Member, TeamMember
 from follow_app.models import Comment
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
@@ -132,14 +132,52 @@ def past_display_comment(request):
 @user_passes_test(check_role_pastorate)
 def past_display_all_member(request):
     current_user = request.user
-    member = Member.objects.filter(user=current_user).filter(status='1')
+    member = Member.objects.filter(status='1')
     # member = Member.objects.filter(team_lead=current_user).filter(status='1')
 
-    return render(request, 'coordinators/past_display_all_member.html', {'member': member})
+    return render(request, 'pastorate/past_display_all_member.html', {'member': member})
 
-# @login_required(login_url='login')
-# def coor_display_comment(request):
-#     return render(request, 'coordinators/display_comment.html')
+def member_male(request):
+    member_male = Member.objects.filter(gender=1)
+    return render(request, 'admin_staff/member_male.html', {'member_male': member_male})
+
+
+def member_female(request):
+    member_female = Member.objects.filter(gender=2)
+    return render(request, 'admin_staff/member_female.html', {'member_female': member_female})
+
+
+
+
+def family(request):
+    member = Family.objects.all()
+    return render(request, 'admin_staff/list_family.html', {'member': member})
+
+
+
+
+
+
+def member_married(request):
+    member_married = Member.objects.filter(marital_status=2)
+    return render(request, 'admin_staff/member_married.html', {'member_married': member_married})
+
+
+
+
+def member_single(request):
+    member_single = Member.objects.filter(marital_status=1)
+    return render(request, 'admin_staff/member_single.html', {'member_single': member_single})
+
+
+
+
+def children(request):
+    children = Children.objects.all()
+    return render(request, 'admin_staff/children.html', {'children': children})
+
+
+
 
 
 @login_required(login_url='login')
@@ -167,23 +205,18 @@ def past_new_comment(request, id):
 
 
 
-# @login_required(login_url='login')
-# @user_passes_test(check_role_pastorate)
-# def my_team_member_list(request):
-#     current_user = request.user
-#     member = Member.objects.filter(team_lead=current_user)
-#     context = {
-#          'member':member,
-#      } 
-#     return render(request, 'pastorate/my_team_member_list.html', context)
+@login_required(login_url='login')
+@user_passes_test(check_role_pastorate) 
+
+def display_kbn_business(request):
+    member = Business.objects.all()
+    return render(request, 'admin_staff/display_kbn_business.html', {'member': member})
 
 
-# @login_required(login_url='login')
-# @user_passes_test(check_role_pastorate)
-# def my_team_member_comment(request):
-#     current_user = request.user
-#     member = Comment.objects.filter(coor_comm=current_user)
-#     context = {
-#          'member':member,
-#      } 
-#     return render(request, 'pastorate/my_team_member_comment.html', context)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_pastorate) 
+
+def display_kbn_car(request):
+    member = Career.objects.all()
+    return render(request, 'admin_staff/display_kbn_car.html', {'member': member})
