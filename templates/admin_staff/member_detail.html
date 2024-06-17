@@ -84,7 +84,7 @@
             
                                   <div class="input-field">
                                       <label>Date of Birth*</label>
-                                      <input type="date" placeholder="Enter birth date" name="date_of_birth" value="{{member.date_of_birth}}" required>
+                                      <input type="date" placeholder="Enter birth date" name="date_of_birth" value="{{member.date_of_birth|date:'Y-m-d'}}" required>
                                       <!-- {{form.date_of_birth}} -->
                                   </div>
             
@@ -130,7 +130,8 @@
                                   </div>
                                   <div class="input-field">
                                     <label>Wedding Anniversary</label>
-                                    <input type="date" placeholder="Enter Wedding Anniversary date" name="wedding_ann"  value="{{member.wedding_ann}}">
+                                    <input type="date" placeholder="Enter Wedding Anniversary date" name="wedding_ann"  value="{{member.wedding_ann|date:'Y-m-d'}}">
+                                    
                                     <!-- {{form.wedding_ann}} -->
                                 </div>
           
@@ -193,8 +194,9 @@
                                       <option>Agbowo 1</option>
                                       <option>Agbowo 2</option>
                                       <option>Orogun Center</option>
-                                  </select>
-                                  <!-- <input type="text" placeholder="Department" name="dept" value="{{member.kcc_center}}"> -->
+                                      <option>Bashorun/Iwo Road</option>
+                                      </select>
+                                   <!--<input type="text" placeholder="Department" name="dept" value="{{member.kcc_center}}"> -->
                                   <!-- {{form.kcc_center}} -->
         
                               </div>

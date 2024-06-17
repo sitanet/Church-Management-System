@@ -8,30 +8,53 @@
         /* Add your CSS styles here */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
         }
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 40px auto;
             padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .header {
-            text-align: center;
-            background-color: red;
+            background-color: #333;
             color: #fff;
             padding: 10px;
+            border-radius: 10px 10px 0 0;
+            width: 100%;
+            text-align: center;
         }
         .content {
-            background-color: #fff;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         .footer {
-            text-align: center;
+            background-color: #333;
+            color: #fff;
             padding: 10px;
+            border-radius: 0 0 10px 10px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 0;
+            color: #fff;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .welcome-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 20px;
         }
     </style>
 </head>
@@ -41,19 +64,18 @@
             <h1>Welcome Aboard!</h1>
         </div>
         <div class="content">
-          
-            <!-- <p>Dear Brethren,</p> -->
+            <img src="https://via.placeholder.com/100" class="welcome-img" alt="Welcome Image">
             <p>Dear {{recipient_name}},</p>
             <p>We are thrilled to welcome you to our community! It's with great joy that we extend our warmest greetings and open arms to you as you embark on this spiritual journey with us.</p>
             <p>At The CityGate Church, we believe in fostering a sense of togetherness, love, and spiritual growth. Your presence among us enriches our community, and we are excited to get to know you better.</p>
             <p>Whether you're new to our faith or simply joining us from a different congregation, please don't hesitate to reach out if you have any questions or need assistance. We're here to support you every step of the way.</p>
-            <p>Stay tuned for upcoming events, worship services, and gatherings. We can't wait to see you at our next gathering on .</p>
+            <p>Stay tuned for upcoming events, worship services, and gatherings. We can't wait to see you at our next gathering on <strong/date></strong-date>.</p>
             <p>Once again, welcome to our family!</p>
             <p>In His Love,</p>
             <p>The CityGate Church Community</p>
         </div>
         <div class="footer">
-            <p>If you have any questions, please contact us at followup@thecitygatechurch.org or 08012345678.</p>
+            <p>If you have any questions, please contact us at <a href="mailto:followup@thecitygatechurch.org">followup@thecitygatechurch.org</a> or <a href="tel:08012345678">08012345678</a>.</p>
         </div>
     </div>
 </body>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page_title">
+                <h2>Create KBN Career Profile for {{ member.first_name }} {{ member.last_name }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-lg rounded-5">
+                <div class="card-body p-5">
+                    <form method="POST" class="kbn_form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ career_form.as_p }}
+                        <button type="submit" class="btn btn-success mt-4 shadow-sm">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

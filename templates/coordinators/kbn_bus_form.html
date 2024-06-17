@@ -1,0 +1,62 @@
+{% extends "coordinators/base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page_title">
+                <h2>Create KBN Business Profile for {{ member.first_name }} {{ member.last_name }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-lg rounded-5">
+                <div class="card-body p-5">
+                    <form method="POST" class="kbn_form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- <div class="form-group">
+                            <label for="business">Business</label>
+                            <input type="checkbox" id="business" name="business" checked disabled>
+                        </div> -->
+                        <div id="business_fields">
+                            <!-- Fields for business -->
+                            <div class="form-group">
+                                <label for="business_name">Business Name</label>
+                                {{ form.business_name }}
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="is_registered">Is Business Registered?</label>
+                                {{ form.is_registered }}
+                            </div> -->
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="is_registered" name="is_registered">
+                                <label class="form-check-label" for="is_registered">Is Business Registered?</label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="brief_description">Brief Description</label>
+                                {{ form.brief_description }}
+                            </div>
+                            <div class="form-group">
+                                <label for="years_of_experience">Years of Business Experience</label>
+                                {{ form.years_of_experience }}
+                            </div>
+                            <div class="form-group">
+                                <label for="number_of_employees">Number of Employees</label>
+                                {{ form.number_of_employees }}
+                            </div>
+                            <div class="form-group">
+                                <label for="business_sector">Business Sector</label>
+                                {{ form.business_sector }}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success mt-4 shadow-sm">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

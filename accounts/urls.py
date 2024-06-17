@@ -13,11 +13,31 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('coor_dashboard/', views.coor_dashboard, name='coor_dashboard'),
+    path('past_dashboard/', views.past_dashboard, name='past_dashboard'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
     path('reset_password_validate/<uidb64>/<token>/', views.reset_password_validate, name='reset_password_validate'),
     path('reset_password/', views.reset_password, name='reset_password'),
     path('change_password/', views.change_password, name='change_password'),
+
+
+
+    path('active_member/', views.active_member, name='active_member'),
+    path('member_inctive/', views.member_inctive, name='member_inctive'),
+    path('member_male/', views.member_male, name='member_male'),
+    path('member_female/', views.member_female, name='member_female'),
+    path('member_single/', views.member_single, name='member_single'),
+    path('member_married/', views.member_married, name='member_married'),
+    path('facilitator/', views.facilitator, name='facilitator'),
+    path('student/', views.student, name='student'),
+    path('career/', views.career, name='career'),
+    path('business/', views.business, name='business'),
+    
+    path('facilitator_dashboard/', views.facilitator_dashboard, name='facilitator_dashboard'),
+    path('student_dashboard/', views.student_dashboard, name='student_dashboard'),
+    path('career_dashboard/', views.career_dashboard, name='career_dashboard'),
+    path('business_dashboard/', views.business_dashboard, name='business_dashboard'),
  
     
 ]
+  

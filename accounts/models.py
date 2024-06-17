@@ -5,13 +5,9 @@ from django.db.models.fields.related import ForeignKey, OneToOneField
 
 
 
-
-
-
-
 # Create your models here.
 class UserManager(BaseUserManager):
-    def create_user(self, first_name, last_name, username, email, role, phone_number, password=None):
+    def create_user(self, first_name, last_name, username, email, role, phone_number,  password=None):
         if not email:
             raise ValueError('User must have an email address')
 
@@ -19,12 +15,12 @@ class UserManager(BaseUserManager):
             raise ValueError('User must have an username')
 
         user = self.model(
-            email = self.normalize_email(email),
-            username = username,
-            first_name = first_name,
-            last_name = last_name,
-            role = role,
-            phone_number = phone_number,
+            email=self.normalize_email(email),
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            role=role,
+            phone_number=phone_number,
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -32,20 +28,23 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, first_name, last_name, username, email, password=None):
         user = self.create_user(
-            email = self.normalize_email(email),
-            username = username,
-            password = password,
-            first_name = first_name,
-            last_name = last_name,
-            
-            
+            email=self.normalize_email(email),
+            username=username,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            role=User.ADMIN,  # Provide a role value here
+            phone_number='N/A',  # Provide a phone_number value here
         )
         user.is_admin = True
-        user.is_active = False
+        user.is_active = True
         user.is_staff = True
         user.is_superadmin = True
         user.save(using=self._db)
         return user
+
+
+
 
 
 class User(AbstractBaseUser):
@@ -53,6 +52,12 @@ class User(AbstractBaseUser):
     TEAM_LEAD = 2
     TEAM_MEMBER = 3
     PASTORATE = 4
+    FACILITATOR = 5
+    STUDENT = 6
+    CARRER = 7
+    BUSINESS = 8
+    SERVICE_TEAM = 9
+  
 
     MALE = 1
     FEMALE = 2
@@ -62,6 +67,12 @@ class User(AbstractBaseUser):
         (TEAM_LEAD, 'Team Lead'),
         (TEAM_MEMBER, 'Team Member'),
         (PASTORATE, 'Pastorate'),
+        (FACILITATOR, 'Facilitator'),
+        (STUDENT, 'Student'),
+        (CARRER, 'Career'),
+        (BUSINESS, 'Business'),
+        (SERVICE_TEAM, 'Service Team'),
+     
     )
 
     profile_picture = models.ImageField(upload_to='users/profile_pictures', default='images/avatar.jpg')
@@ -69,7 +80,7 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
-    phone_number = models.CharField(max_length=12, blank=True)
+    phone_number = models.CharField(max_length=30, blank=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICE, blank=True, null=True)
 
     # required fields
@@ -105,6 +116,17 @@ class User(AbstractBaseUser):
             user_role = 'Team Member'
         elif self.role == 4:
             user_role = 'Pastorate'
+        if self.role == 5:
+            user_role = 'KBN Facilitator'
+        elif self.role == 6:
+            user_role = 'KBN Student'
+        elif self.role == 7:
+            user_role = 'KBN Career'
+        elif self.role == 8:
+            user_role = 'KBN Business'
+        elif self.role == 9:
+            user_role = 'Service Team'
+
         return user_role
 
 

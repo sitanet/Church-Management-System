@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import urlsafe_base64_decode
 
 from accounts.utils import detectUser, send_verification_email
-from follow_app.models import Member
+from follow_app.models import Family, Member
 
 
 from .forms import UserForm, UserProfileForm, UserProfilePictureForm
@@ -43,43 +43,167 @@ def check_role_team_member(user):
         return True
     else:
         raise PermissionDenied
+    
+
+def check_role_pastorate(user):
+    if user.role == 4:
+        return True
+    else:
+        raise PermissionDenied
+
+def check_role_facilitator(user):
+    if user.role == 5:
+        return True
+    else:
+        raise PermissionDenied
+    
+def check_role_student(user):
+    if user.role == 6:
+        return True
+    else:
+        raise PermissionDenied
+
+def check_role_career(user):
+    if user.role == 7:
+        return True
+    else:
+        raise PermissionDenied
+    
+def check_role_business(user):
+    if user.role == 8:
+        return True
+    else:
+        raise PermissionDenied
+    
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from twilio.rest import Client
+from .forms import UserForm
+from .models import User
+from .utils import send_verification_email  # Assuming you have this utility function
+from django.conf import settings
+import requests
+
 @login_required(login_url='login')
 @user_passes_test(check_role_admin)
-def registeruser(request):
+# def registeruser(request):
      
-     if request.method == 'POST':
+#      if request.method == 'POST':
+#         form = UserForm(request.POST)
+#         if form.is_valid():
+          
+#             first_name = form.cleaned_data['first_name']
+#             last_name = form.cleaned_data['last_name']
+#             username = form.cleaned_data['username']
+#             email = form.cleaned_data['email']
+          
+#             password = form.cleaned_data['password']
+#             phone_number = form.cleaned_data['phone_number']
+#             role = form.cleaned_data['role']
+
+#             user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, role=role, phone_number=phone_number, password=password)
+            
+#             user.save()
+#             messages.success(request, 'You have successfull register User')
+
+#             # Send verification email
+#             mail_subject = 'Please activate your account'
+#             email_template = 'accounts/email/accounts_verification_email.html'
+#             send_verification_email(request, user, mail_subject, email_template)
+#             messages.success(request, 'Your account has been registered sucessfully!')
+#             return redirect('registeruser')
+#         else:
+#             print('invalid form')
+#             print(form.errors)
+#      else:
+#         form = UserForm()
+#      context = {
+#         'form': form,
+#     }
+#      return render(request, 'accounts/registeruser.html', context)
+
+
+
+
+def registeruser(request):
+    if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-          
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-          
             password = form.cleaned_data['password']
             phone_number = form.cleaned_data['phone_number']
             role = form.cleaned_data['role']
 
-            user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, role=role, phone_number=phone_number, password=password)
-            
-            user.save()
-            messages.success(request, 'You have successfull register User')
+            try:
+                user = User.objects.create_user(
+                    first_name=first_name,
+                    last_name=last_name,
+                    username=username,
+                    email=email,
+                    role=role,
+                    phone_number=phone_number,
+                    password=password
+                )
+                user.save()
+                messages.success(request, 'You have successfully registered.')
 
-            # Send verification email
-            mail_subject = 'Please activate your account'
-            email_template = 'accounts/email/accounts_verification_email.html'
-            send_verification_email(request, user, mail_subject, email_template)
-            messages.success(request, 'Your account has been registered sucessfully!')
+                # Send verification email
+                mail_subject = 'Please activate your account'
+                email_template = 'accounts/email/accounts_verification_email.html'
+                send_verification_email(request, user, mail_subject, email_template)
+                messages.success(request, 'Your account has been registered successfully!')
+
+                # Send SMS via Termii
+                print(f'Sending SMS to {phone_number}...')
+                sms_body = f"Hello {first_name}, your account has been registered successfully on TCGC MOS. Please check your email to activate!"
+                termii_api_key = settings.TERMII_API_KEY
+                termii_sender_id = settings.TERMII_SENDER_ID
+                termii_url = 'https://api.ng.termii.com/api/sms/send'
+
+                payload = {
+                    "to": phone_number,
+                    "from": termii_sender_id,
+                    "sms": sms_body,
+                    "type": "plain",
+                    "channel": "dnd",
+                    "api_key": termii_api_key
+                }
+
+                response = requests.post(termii_url, json=payload)
+                response_data = response.json()
+                if response.status_code == 200 and response_data.get('status') == 'success':
+                    print('SMS sent successfully')
+                else:
+                    error_message = response_data.get('message', 'Failed to send SMS')
+                    print(f'Error sending SMS: {error_message}')
+                    messages.error(request, f'Failed to send SMS: {error_message}')
+
+            except Exception as e:
+                messages.error(request, f'Failed to register user: {e}')
+                print(f'Error: {e}')
+                return redirect('registeruser')
+
             return redirect('registeruser')
         else:
-            print('invalid form')
+            print('Invalid form')
             print(form.errors)
-     else:
+    else:
         form = UserForm()
-     context = {
+
+    context = {
         'form': form,
     }
-     return render(request, 'accounts/registeruser.html', context)
+    return render(request, 'accounts/registeruser.html', context)
+
+
+
+
+
+
+ 
 
 @login_required(login_url='login')
 def myAccount(request):
@@ -109,12 +233,12 @@ def dashboard(request):
 
 @login_required(login_url='login')
 def coor_dashboard(request):
-    member = Member.objects.filter(status=1).filter(team_lead=request.user).count()
-    member_inctive = Member.objects.filter(status=2).filter(team_lead=request.user).count()
-    member_male = Member.objects.filter(gender=1).filter(team_lead=request.user).count()
-    member_female = Member.objects.filter(gender=2).filter(team_lead=request.user).count()
-    member_single = Member.objects.filter(marital_status=1).filter(team_lead=request.user).count()
-    member_married = Member.objects.filter(marital_status=2).filter(team_lead=request.user).count()
+    member = Member.objects.filter(status=1).filter(team_lead=request.user.role).count()
+    member_inctive = Member.objects.filter(status=2).filter(team_lead=request.user.role).count()
+    member_male = Member.objects.filter(gender=1).filter(team_lead=request.user.role).count()
+    member_female = Member.objects.filter(gender=2).filter(team_lead=request.user.role).count()
+    member_single = Member.objects.filter(marital_status=1).filter(team_lead=request.user.role).count()
+    # member_married = Family.objects.filter(team_lead=request.user.role).count()
     
 
     context = {
@@ -126,6 +250,29 @@ def coor_dashboard(request):
         'member_married': member_married,
     }
     return render(request, 'coordinators/coor_dashboard.html', context)
+
+
+
+@login_required(login_url='login')
+def past_dashboard(request):
+    member = Member.objects.filter(status=1).count()
+    member_inctive = Member.objects.filter(status=2).count()
+    member_male = Member.objects.filter(gender=1).count()
+    member_female = Member.objects.filter(gender=2).count()
+    member_single = Member.objects.filter(marital_status=1).count()
+    member_married = Member.objects.filter(marital_status=2).count()
+    
+
+    context = {
+        'member': member,
+        'member_inctive': member_inctive,
+        'member_male': member_male,
+        'member_female': member_female,
+        'member_single': member_single,
+        'member_married': member_married,
+    }
+    return render(request, 'pastorate/past_dashboard.html', context)
+
 
 @login_required(login_url='login')
 def team_dashboard(request):
@@ -297,3 +444,108 @@ def reset_password(request):
 def change_password(request):
    
     return render(request, 'accounts/change_password.html')
+
+
+
+
+
+
+def active_member(request):
+    active_member = Member.objects.filter(status=1)
+    context = {
+        'active_member': active_member,
+    }
+    return render(request, 'admin_staff/active_member.html', context)
+
+def member_inctive(request):
+    member_inctive = Member.objects.filter(status=1)
+    context = {
+        'member_inctive': member_inctive,
+    }
+    return render(request, 'admin_staff/member_inctive.html', context)
+
+
+
+def member_male(request):
+    member_male = Member.objects.filter(gender=1).count()
+    context = {
+        'member_male': member_male,
+    }
+    return render(request, 'admin_staff/member_male.html', context)
+
+
+
+def member_female(request):
+    member_female = Member.objects.filter(gender=2)
+    context = {
+        'member_female': member_female,
+    }
+    return render(request, 'admin_staff/member_female.html', context)
+
+
+
+    
+
+def member_single(request):
+    member_single = Member.objects.filter(marital_status=1)
+    context = {
+        'member_single': member_single,
+    }
+    return render(request, 'admin_staff/member_single.html', context)
+
+
+
+def member_married(request):
+    member_married = Member.objects.filter(marital_status=2)
+    context = {
+        'member_married': member_married,
+    }
+    return render(request, 'admin_staff/member_married.html', context)
+
+
+
+
+def facilitator(request):
+    member_married = Member.objects.filter(marital_status=2)
+    context = {
+        'member_married': member_married,
+    }
+    return render(request, 'admin_staff/dashboard.html', context)
+
+def career(request):
+    member_married = Member.objects.filter(marital_status=2)
+    context = {
+        'member_married': member_married,
+    }
+    return render(request, 'admin_staff/dashboard.html', context)
+
+def student(request):
+    member_married = Member.objects.filter(marital_status=2)
+    context = {
+        'member_married': member_married,
+    }
+    return render(request, 'admin_staff/dashboard.html', context)
+
+def business(request):
+    member_married = Member.objects.filter(marital_status=2)
+    context = {
+        'member_married': member_married,
+    }
+    return render(request, 'admin_staff/dashboard.html', context)
+
+
+def facilitator_dashboard(request):
+    return render(request, 'kbn/facilitator_dashboard.html')
+
+def student_dashboard(request):
+    return render(request, 'student/student_dashboard.html')
+
+
+def career_dashboard(request):
+    return render(request, 'career/career_dashboard.html')
+
+def business_dashboard(request):
+    return render(request, 'business/business_dashboard.html')
+
+def service_team_dashboard(request):
+    return render(request, 'Service_team/service_team_dashboard.html')

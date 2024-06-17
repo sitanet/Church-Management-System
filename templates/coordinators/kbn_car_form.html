@@ -1,0 +1,221 @@
+{% extends "coordinators/base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page_title">
+                <h2>Create KBN Career Profile for {{ member.first_name }} {{ member.last_name }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-lg rounded-5">
+                <div class="card-body p-5">
+                    <form method="POST" class="kbn_form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- <div class="form-group">
+                            <label for="career">Career</label>
+                            <input type="checkbox" id="career" name="career" checked disabled>
+                        </div> -->
+                        <div id="career_fields">
+                            <!-- Fields for career -->
+                            <div class="form-group">
+                                <label for="current_employment">Current Employment</label>
+                                <div id="current_employment_forms">
+                                    <!-- Template for current employment form -->
+                                    <div class="current_employment_form">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="current_employment_job_title">Job Title</label>
+                                                    {{ form.current_employment_job_title }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="current_employment_company_name">Company Name</label>
+                                                    {{ form.current_employment_company_name }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="current_employment_duration">Duration</label>
+                                                    {{ form.current_employment_duration }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="current_employment_responsibilities">Responsibilities</label>
+                                            {{ form.current_employment_responsibilities }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-success" id="add_current_employment">Add</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="previous_employment">Previous Employment</label>
+                                <div id="previous_employment_forms">
+                                    <!-- Template for previous employment form -->
+                                    <div class="previous_employment_form">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="previous_employment_job_title">Job Title</label>
+                                                    {{ form.previous_employment_job_title }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="previous_employment_company_name">Company Name</label>
+                                                    {{ form.previous_employment_company_name }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="previous_employment_duration">Duration</label>
+                                                    {{ form.previous_employment_duration }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="previous_employment_responsibilities">Responsibilities</label>
+                                            {{ form.previous_employment_responsibilities }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-success" id="add_previous_employment">Add</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="educational_background">Educational Background</label>
+                                <div id="educational_background_forms">
+                                    <!-- Template for educational background form -->
+                                    <div class="educational_background_form">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="highest_qualification_degree">Degree</label>
+                                                    {{ form.highest_qualification_degree }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="highest_qualification_institution">Institution</label>
+                                                    {{ form.highest_qualification_institution }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="highest_qualification_year_of_graduation">Year of Graduation</label>
+                                                    {{ form.highest_qualification_year_of_graduation }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="highest_qualification_gpa">GPA</label>
+                                            {{ form.highest_qualification_gpa }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-success" id="add_educational_background">Add</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="other_qualification">Other Qualification</label>
+                                <div id="other_qualification_forms">
+                                    <!-- Template for other qualification form -->
+                                    <div class="other_qualification_form">
+                                        <div class="row">
+                                            <div class="col-md-3 mb-3">
+                                                <div class="form-group">
+                                                    <label for="other_qualification_certification">Certification</label>
+                                                    {{ form.other_qualification_certification }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="form-group">
+                                                    <label for="other_qualification_institution">Institution</label>
+                                                    {{ form.other_qualification_institution }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="form-group">
+                                                    <label for="other_qualification_year_of_graduation">Year of Graduation</label>
+                                                    {{ form.other_qualification_year_of_graduation }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="form-group">
+                                                    <label for="other_qualification_gpa">GPA</label>
+                                                    {{ form.other_qualification_gpa }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-success" id="add_other_qualification">Add</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="skills">Skills</label>
+                                {{ form.skills }}
+                            </div>
+                            <div class="form-group">
+                                <label for="achievements_and_awards">Achievements and Awards</label>
+                                {{ form.achievements_and_awards }}
+                            </div>
+                            <div class="form-group">
+                                <label for="additional_information">Additional Information</label>
+                                {{ form.additional_information }}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success mt-4 shadow-sm">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add button functionality for each section
+        document.getElementById('add_current_employment').addEventListener('click', function() {
+            const currentEmploymentForms = document.getElementById('current_employment_forms');
+            const newForm = document.querySelector('.current_employment_form').cloneNode(true);
+            clearFormFields(newForm);
+            currentEmploymentForms.appendChild(newForm);
+        });
+
+        document.getElementById('add_previous_employment').addEventListener('click', function() {
+            const previousEmploymentForms = document.getElementById('previous_employment_forms');
+            const newForm = document.querySelector('.previous_employment_form').cloneNode(true);
+            clearFormFields(newForm);
+            previousEmploymentForms.appendChild(newForm);
+        });
+
+        // Add functionality for educational background
+        document.getElementById('add_educational_background').addEventListener('click', function() {
+            const educationalBackgroundForms = document.getElementById('educational_background_forms');
+            const newForm = document.querySelector('.educational_background_form').cloneNode(true);
+            clearFormFields(newForm);
+            educationalBackgroundForms.appendChild(newForm);
+        });
+
+        // Add functionality for other qualification
+        document.getElementById('add_other_qualification').addEventListener('click', function() {
+            const otherQualificationForms = document.getElementById('other_qualification_forms');
+            const newForm = document.querySelector('.other_qualification_form').cloneNode(true);
+            clearFormFields(newForm);
+            otherQualificationForms.appendChild(newForm);
+        });
+
+        // Function to clear form fields
+        function clearFormFields(form) {
+            form.querySelectorAll('input, textarea').forEach(function(field) {
+                field.value = '';
+            });
+        }
+    });
+</script>
+
+{% endblock %}

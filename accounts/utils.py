@@ -17,6 +17,26 @@ def detectUser(user):
     elif user.role == 3:
         redirectUrl = 'team_dashboard'
         return redirectUrl
+    elif user.role == 4:
+        redirectUrl = 'past_dashboard'
+        return redirectUrl
+    elif user.role == 5:
+        redirectUrl = 'facilitator_dashboard'
+        return redirectUrl
+    elif user.role == 6:
+        redirectUrl = 'student_dashboard'
+        return redirectUrl
+    elif user.role == 7:
+        redirectUrl = 'career_dashboard'
+        return redirectUrl
+    elif user.role == 8:
+        redirectUrl = 'business_dashboard'
+        return redirectUrl
+    elif user.role == 9:
+        redirectUrl = 'service_team_dashboard'
+        return redirectUrl
+
+
     elif user.role == None and user.is_superadmin:
         redirectUrl = '/admin'
         return redirectUrl

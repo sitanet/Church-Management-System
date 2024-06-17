@@ -1,6 +1,6 @@
 h1 {
     margin: 0 auto;
-    margin-top: 5rem;
+    margin-top: 2rem;
     margin-bottom: 2rem;
     text-align: center;
 }
@@ -14,7 +14,7 @@ h1 {
 }
 
 .image-preview-container img {
-    width: 65%;
+    width: 75%;
     display: none;
     margin-bottom: 5px;
     padding-left: 150px;
@@ -26,8 +26,8 @@ h1 {
 
 .image-preview-container label {
     display: block;
-    width: 45%;
-    height: 45px;
+    width: 50%;
+    height: 30px;
     margin-left: 25%;
     text-align: center;
     background: #EB5406;

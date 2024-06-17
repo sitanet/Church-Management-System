@@ -28,4 +28,10 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('coordinators/', include('coordinators.urls')),
     path('team_members/', include('team_members.urls')),
+    path('pastorate/', include('pastorate.urls')),
+    path('facilitator/', include('facilitator.urls')),
+    path('student/', include('student.urls')),
+    path('career/', include('career.urls')),
+    path('business/', include('business.urls')),
+    path('kbn/', include('kbn.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

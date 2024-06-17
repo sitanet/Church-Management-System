@@ -1,0 +1,22 @@
+{% extends "coordinators/base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page_title">
+                <h2>Success! Student Record Created Successfully</h2>
+            </div>
+        </div>
+        
+        <div class="col-md-12">
+            <div class="card shadow-lg rounded-5">
+                <div class="card-body p-5">
+                    <p>Student profile has been created successfully.</p>
+                    <a href="{% url 'list_members_student' %}" class="btn btn-primary">Create Another Student</a>
+                    <!-- Add other navigation options as needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
