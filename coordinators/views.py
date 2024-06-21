@@ -89,8 +89,7 @@ def coor_register_member(request):
             return redirect('coor_register_member')
     else:
         form = MemberForm()
-        current_user = request.user
-        team_lead = Team_Lead.objects.filter(name=current_user)
+        team_lead = Team_Lead.objects.all()
         team_members = TeamMember.objects.all()
         member = User.objects.all()
 

@@ -1,12 +1,8 @@
-from django.apps import AppConfig
-import logging
+# from django.apps import AppConfig
 
-logger = logging.getLogger(__name__)
+# class FollowAppConfig(AppConfig):
+#     name = 'follow_app'
 
-class FollowAppConfig(AppConfig):
-    name = 'follow_app'
-
-    def ready(self):
-        logger.info("Starting the scheduler...")
-        from . import scheduler
-        scheduler.start()
+#     def ready(self):
+#         from follow_app import tasks
+#         tasks.start_scheduler()

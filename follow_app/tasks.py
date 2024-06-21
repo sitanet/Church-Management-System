@@ -1,41 +1,37 @@
-import requests
-import logging
+import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
+from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 from .models import Member
-from datetime import date
-from django.conf import settings
+from .utils import send_sms  # Assuming send_sms is in utils.py
 
-logger = logging.getLogger(__name__)
+def send_birthday_and_anniversary_wishes():
+    today = datetime.date.today()
 
-def send_sms_via_termii(phone_number, message):
-    termii_url = 'https://api.ng.termii.com/api/sms/send'
-    payload = {
-        "to": phone_number,
-        "from": settings.TERMII_SENDER_ID,
-        "sms": message,
-        "type": "plain",
-        "channel": "dnd",
-        "api_key": settings.TERMII_API_KEY
-    }
-    response = requests.post(termii_url, json=payload)
-    response_data = response.json()
-    if response.status_code == 200 and response_data.get('status') == 'success':
-        logger.info(f'SMS sent successfully to {phone_number}')
-    else:
-        error_message = response_data.get('message', 'Failed to send SMS')
-        logger.error(f'Error sending SMS to {phone_number}: {error_message}')
-
-def send_anniversary_sms():
-    today = date.today()
-    logger.info(f"Checking for anniversaries on {today}")
+    # Check for birthdays
+    members_with_birthday = Member.objects.filter(date_of_birth__month=today.month, date_of_birth__day=today.day)
+    for member in members_with_birthday:
+        send_birthday_wishes(member)
 
     # Check for wedding anniversaries
-    anniversary_members = Member.objects.filter(
-        wedding_ann__isnull=False,
-        wedding_ann__month=today.month,
-        wedding_ann__day=today.day
-    )
-    logger.info(f"Found {anniversary_members.count()} members with anniversaries today")
+    members_with_anniversary = Member.objects.filter(wedding_ann__month=today.month, wedding_ann__day=today.day)
+    for member in members_with_anniversary:
+        send_anniversary_wishes(member)
 
-    for member in anniversary_members:
-        sms_body = f"Happy Wedding Anniversary {member.first_name}! Wishing you a joyous day!"
-        send_sms_via_termii(member.phone_no, sms_body)
+def send_birthday_wishes(member):
+    sms_body = f"Happy Birthday, {member.first_name}! Wishing you a blessed year ahead. - The CityGate Church"
+    send_sms(member.phone_no, sms_body)
+
+def send_anniversary_wishes(member):
+    sms_body = f"Happy Wedding Anniversary, {member.first_name}! Wishing you and your spouse many more blessed years together. - The CityGate Church"
+    send_sms(member.phone_no, sms_body)
+
+def start_scheduler():
+    scheduler = BackgroundScheduler()
+    scheduler.add_jobstore(DjangoJobStore(), "default")
+
+    # Schedule the job to run daily at midnight
+    register_job(scheduler, 'cron', hour=0, minute=0, name='send_wishes', jobstore='default')(send_birthday_and_anniversary_wishes)
+
+    register_events(scheduler)
+    scheduler.start()
+    print("Scheduler started...")

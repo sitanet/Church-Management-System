@@ -23,7 +23,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from django.utils import timezone
 from follow_app.models import Member
-from twilio.rest import Client
+
 from django.conf import settings
 # from .tasks import send_birthday_wish_email
 
@@ -101,21 +101,6 @@ def register_member(request):
                     html_message=html_message,
                 )
 
-                # Send SMS via Twilio
-                try:
-                    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-                    sms_body = f"Hello {recipient_name}, your account has been registered successfully. Thank you for joining us!"
-                    phone_number = request.POST.get('phone_no')  # Ensure phone_number is collected from the form
-                    message = client.messages.create(
-                        body=sms_body,
-                        from_=settings.TWILIO_PHONE_NUMBER,
-                        to=phone_number
-                    )
-                    print(f'SMS sent: {message.sid}')
-                except Exception as e:
-                    messages.error(request, f'Failed to send SMS: {e}')
-                    print(f'Error sending SMS: {e}')
-
                 messages.success(request, 'Account has been registered successfully!')
                 return redirect('display_all_member')
             else:
@@ -140,6 +125,7 @@ def register_member(request):
         }
 
     return render(request, 'admin_staff/register_member.html', context)
+
 
 
 @login_required(login_url='login')

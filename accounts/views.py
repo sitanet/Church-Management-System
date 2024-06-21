@@ -77,7 +77,7 @@ def check_role_business(user):
     
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from twilio.rest import Client
+
 from .forms import UserForm
 from .models import User
 from .utils import send_verification_email  # Assuming you have this utility function
