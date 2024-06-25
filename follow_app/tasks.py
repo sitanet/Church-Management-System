@@ -1,42 +1,41 @@
-import datetime
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.jobstores.base import ConflictingIdError
-from django_apscheduler.jobstores import DjangoJobStore, register_job
-from django.conf import settings
+import requests
+import logging
 from .models import Member
-from .utils import send_sms
+from datetime import date
+from django.conf import settings
 
-def send_birthday_and_anniversary_wishes():
-    today = datetime.date.today()
-    members_with_birthday = Member.objects.filter(date_of_birth__month=today.month, date_of_birth__day=today.day)
-    members_with_anniversary = Member.objects.filter(wedding_ann__month=today.month, wedding_ann__day=today.day)
+logger = logging.getLogger(__name__)
 
-    for member in members_with_birthday:
-        phone_number = member.phone_no
-        message = f"Happy Birthday, {member.first_name}! We wish you all the best on your special day. Stay blessed!"
-        send_sms(phone_number, message)
+def send_sms_via_termii(phone_number, message):
+    termii_url = 'https://api.ng.termii.com/api/sms/send'
+    payload = {
+        "to": phone_number,
+        "from": settings.TERMII_SENDER_ID,
+        "sms": message,
+        "type": "plain",
+        "channel": "dnd",
+        "api_key": settings.TERMII_API_KEY
+    }
+    response = requests.post(termii_url, json=payload)
+    response_data = response.json()
+    if response.status_code == 200 and response_data.get('status') == 'success':
+        logger.info(f'SMS sent successfully to {phone_number}')
+    else:
+        error_message = response_data.get('message', 'Failed to send SMS')
+        logger.error(f'Error sending SMS to {phone_number}: {error_message}')
 
-    for member in members_with_anniversary:
-        phone_number = member.phone_no
-        message = f"Happy Wedding Anniversary, {member.first_name}! May your union continue to be blessed and joyful."
-        send_sms(phone_number, message)
+def send_anniversary_sms():
+    today = date.today()
+    logger.info(f"Checking for anniversaries on {today}")
 
-def start_scheduler():
-    scheduler = BackgroundScheduler()
-    scheduler.add_jobstore(DjangoJobStore(), "default")
+    # Check for wedding anniversaries
+    anniversary_members = Member.objects.filter(
+        wedding_ann__isnull=False,
+        wedding_ann__month=today.month,
+        wedding_ann__day=today.day
+    )
+    logger.info(f"Found {anniversary_members.count()} members with anniversaries today")
 
-    job_id = 'send_wishes'
-    try:
-        scheduler.remove_job(job_id, jobstore='default')
-    except Exception as e:
-        print(f"No existing job found with ID {job_id}: {e}")
-
-    # Schedule the job to run every minute for testing purposes
-    try:
-        register_job(scheduler, 'interval', minutes=1, id=job_id, jobstore='default')(send_birthday_and_anniversary_wishes)
-        scheduler.start()
-    except ConflictingIdError:
-        print(f"A job with ID {job_id} already exists.")
-
-    print("Scheduler started!")
-
+    for member in anniversary_members:
+        sms_body = f"Happy Wedding Anniversary {member.first_name}! Wishing you a joyous day!"
+        send_sms_via_termii(member.phone_no, sms_body)

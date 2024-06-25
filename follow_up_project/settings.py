@@ -31,9 +31,9 @@ SECRET_KEY = 'django-insecure-rnrn*r*)!+i0(r&km0$7u+q)6a1-(e))m%4$dbpvm3dov#utj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['followtheminchrist.thecitygatechurch.org']
+ALLOWED_HOSTS = ['followtheminchrist.thecitygatechurch.org']
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 # Application definition
 
 # INTERNAL_IPS = ['127.0.0']
@@ -128,29 +128,29 @@ WSGI_APPLICATION = 'follow_up_project.wsgi.application'
 
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'thecity2_Follow_up',
-#         'USER': 'thecity2_follow_up',
-#         'PASSWORD': 'People@1234',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'follow_up',
-        'USER': 'postgres',
-        'PASSWORD': 'People',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'thecity2_Follow_up',
+        'USER': 'thecity2_follow_up',
+        'PASSWORD': 'People@1234',
         'HOST': 'localhost',
-        # 'HOST': 'database-2.cxwm64gcozpx.us-west-2.rds.amazonaws.com',  # Or your database host
-        'PORT': '5432',           # Leave empty for the default PostgreSQL port (5432)
+        'PORT': '',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'follow_up',
+#         'USER': 'postgres',
+#         'PASSWORD': 'People',
+#         'HOST': 'localhost',
+#         # 'HOST': 'database-2.cxwm64gcozpx.us-west-2.rds.amazonaws.com',  # Or your database host
+#         'PORT': '5432',           # Leave empty for the default PostgreSQL port (5432)
+#     }
+# }
 
 
 AUTH_USER_MODEL = 'accounts.User'
