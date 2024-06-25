@@ -72,7 +72,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <a href="{% url 'family' %}">
+                <a href="{% url 'list_family' %}">
                     <div class="full counter_section margin_bottom_30">
                         <div class="couter_icon">
                             <div>
@@ -144,7 +144,7 @@
             </div>
             
             <div class="col-md-6 col-lg-3">
-                <a href="#">
+                <a href="{% url 'admin_teenager_list' %}">
                     <div class="full counter_section margin_bottom_30">
                         <div class="couter_icon">
                             <div>
@@ -154,6 +154,63 @@
                         <div class="counter_no">
                             <div>
                                 <p class="total_no"><span style="color: green;">Teenager:</span> <br><span style="color: #FF5F1F;"><b>{{ member_teenager }}</b></span> </p>
+                                <p class="head_couter pb-2 pt-5"></p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <a href="{% url 'nysc' %}">
+                    <div class="full counter_section margin_bottom_30">
+                        <div class="couter_icon">
+                            <div>
+                                <i class="fas fa-graduation-cap" style="font-size: 2em; color: #FF33A8;"></i>
+                            </div>
+                        </div>
+                        <div class="counter_no">
+                            <div>
+                                <p class="total_no"><span style="color: green;">NYSC:</span> <br><span style="color: #FF5F1F;"><b>{{ member_nysc }}</b></span> </p>
+                                <p class="head_couter pb-2 pt-5"></p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
+
+
+            <div class="col-md-6 col-lg-3">
+                <a href="{% url 'household_list' %}">
+                    <div class="full counter_section margin_bottom_30">
+                        <div class="couter_icon">
+                            <div>
+                                <i class="fas fa-graduation-cap" style="font-size: 2em; color: #FF33A8;"></i>
+                            </div>
+                        </div>
+                        <div class="counter_no">
+                            <div>
+                                <p class="total_no"><span style="color: green;">HouseHold:</span> <br><span style="color: #FF5F1F;"><b>{{ member_household }}</b></span> </p>
+                                <p class="head_couter pb-2 pt-5"></p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <a href="{% url 'display_kbn_car_admin' %}">
+                    <div class="full counter_section margin_bottom_30">
+                        <div class="couter_icon">
+                            <div>
+                                <i class="fas fa-graduation-cap" style="font-size: 2em; color: #FF33A8;"></i>
+                            </div>
+                        </div>
+                        <div class="counter_no">
+                            <div>
+                                <p class="total_no"><span style="color: green;">KCC:</span> <br><span style="color: #FF5F1F;"><b>{{ member_career }}</b></span> </p>
                                 <p class="head_couter pb-2 pt-5"></p>
                             </div>
                         </div>

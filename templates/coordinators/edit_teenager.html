@@ -1,0 +1,54 @@
+{% extends "coordinators/base.html" %}
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>Edit Teenager Profile</h3>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.errors }}
+                {{ form.non_field_errors }}
+                
+                <div class="form-group">
+                    <label for="id_current_school_name">Current School Name</label>
+                    {{ form.current_school_name }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_current_class">Current Class</label>
+                    {{ form.current_class }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_last_class_position">Last Class Position</label>
+                    {{ form.last_class_position }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_favorite_subjects">Favorite Subjects</label>
+                    {{ form.favorite_subjects }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_career_goals">Career Goals</label>
+                    {{ form.career_goals }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_college_university_plans">College/University Plans</label>
+                    {{ form.college_university_plans }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_other_future_aspirations">Other Future Aspirations</label>
+                    {{ form.other_future_aspirations }}
+                </div>
+
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

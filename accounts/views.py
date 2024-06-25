@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import urlsafe_base64_decode
 
 from accounts.utils import detectUser, send_verification_email
-from follow_app.models import Business, Career, Family, Member
+from follow_app.models import NYSC, Business, Career, Children, Family, Household, Member
 
 
 from .forms import UserForm, UserProfileForm, UserProfilePictureForm
@@ -77,7 +77,7 @@ def check_role_business(user):
     
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from twilio.rest import Client
+
 from .forms import UserForm
 from .models import User
 from .utils import send_verification_email  # Assuming you have this utility function
@@ -226,6 +226,9 @@ def dashboard(request):
   
     member_business = Business.objects.all().count()
     member_career = Career.objects.all().count()
+    member_children = Children.objects.all().count()
+    member_nysc = NYSC.objects.all().count()
+    member_household = Household.objects.all().count()
     
 
     context = {
@@ -241,6 +244,8 @@ def dashboard(request):
         'member_teenager':member_teenager,
         'member_business':member_business,
         'member_career':member_career,
+        'member_nysc':member_nysc,
+        'member_household':member_household,
 
 
 

@@ -23,7 +23,7 @@ from twilio.rest import Client
 from follow_app.forms import MemberForm
 from follow_app.models import Team_Lead, TeamMember, User
 from django.conf import settings
-from .utils import send_sms
+from follow_app.utils import send_sms
 
 @user_passes_test(check_role_coordinator)
 
@@ -89,8 +89,7 @@ def coor_register_member(request):
             return redirect('coor_register_member')
     else:
         form = MemberForm()
-        current_user = request.user
-        team_lead = Team_Lead.objects.filter(name=current_user)
+        team_lead = Team_Lead.objects.all()
         team_members = TeamMember.objects.all()
         member = User.objects.all()
 

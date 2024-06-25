@@ -11,6 +11,13 @@ urlpatterns = [
     path('display_kbn_business/', views.display_kbn_business, name='display_kbn_business'),
     path('display_kbn_car/', views.display_kbn_car, name='display_kbn_car'),
     
+    path('member_detail_universal/<int:id>/', views.member_detail_universal, name='member_detail_universal'),
+    path('member_male_detail/<int:id>/', views.member_male_detail, name='member_male_detail'),
+    path('member_female_detail/<int:id>/', views.member_female_detail, name='member_female_detail'),
+
+    path('family/<int:id>/', views.family_detail, name='family_detail'),
+    path('families/<int:id>/delete/', views.delete_family, name='delete_family'),
+    
     path('display_comment/', views.display_comment, name='display_comment'),
     path('all_comment/', views.all_comment, name='all_comment'),
     path('new_comment/<int:id>/', views.new_comment, name='new_comment'),
@@ -27,13 +34,20 @@ urlpatterns = [
     path('student-success/', views.success_page, name='student_success'),
 
     path('create_nysc/<int:member_id>/', views.create_nysc, name='create_nysc'),
-    path('nysc_success/', views.nysc_success, name='nysc_success'),
-    path('list_members_nysc/', views.list_members_nysc, name='list_members_nysc'),
+    path('success/', views.success, name='success'),
+    path('nysc/', views.nysc, name='nysc'),
 
 
     path('create_child/<int:member_id>/', views.create_child, name='create_child'),
     path('child_success/', views.child_success, name='child_success'),
     path('list_members_child/', views.list_members_child, name='list_members_child'),
+    path('children_detail/<int:id>/', views.children_detail, name='children_detail'),
+
+
+    path('list_members_nysc/', views.list_members_nysc, name='list_members_nysc'),
+
+    path('nysc_detail/<int:id>/', views.nysc_detail, name='nysc_detail'),
+    
 
 
     # path('create_kbn/<int:member_id>/', views.create_kbn, name='create_kbn'),
@@ -71,6 +85,31 @@ urlpatterns = [
 
 
     
- 
-    
+    path('household_list/', views.household_list, name='household_list'),
+    # path('households/add/', views.add_household, name='add_household'),
+    # path('search-members/', views.search_members, name='search_members'),
+
+
+    path('create_household/', views.create_household, name='create_household'),
+    path('search_members/', views.search_members, name='search_members'),
+    path('household/<int:household_id>/add/', views.add_household_member, name='add_household_member'),
+
+
+
+    path('household/<int:household_id>/', views.household_detail, name='household_detail'),
+    path('household/<int:household_id>/edit/<int:member_id>/', views.edit_household_member, name='edit_household_member'),
+    path('household/<int:household_id>/delete/<int:member_id>/', views.delete_household_member, name='delete_household_member'),
+    path('search_member_add/', views.search_member_add, name='search_member_add'),
+
+
+
+
+    path('teenager_member_list/', views.teenager_member_list, name='teenager_member_list'),
+    path('admin_teenager_list/', views.admin_teenager_list, name='admin_teenager_list'),
+    path('teenagers/', views.teenager_list, name='teenager_list'),
+    path('teenagers/add/<int:member_id>/', views.add_teenager, name='add_teenager'),
+    path('teenagers/edit/<int:teenager_id>/', views.edit_teenager, name='edit_teenager'),
+    path('teenagers/delete/<int:teenager_id>/', views.delete_teenager, name='delete_teenager'),
+    path('teenagers/<int:teenager_id>/', views.teenager_detail, name='teenager_detail'),
+
 ]

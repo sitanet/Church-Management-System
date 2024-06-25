@@ -68,7 +68,7 @@
                 </a>
             </div>
             <div class="col-md-6 col-lg-3">
-                <a href="{% url 'list_members_child' %}">
+                <a href="{% url 'teenager_member_list' %}">
                     <div class="full counter_section margin_bottom_30">
                         <div class="couter_icon">
                             <div>
@@ -129,6 +129,40 @@
                         <div class="counter_no">
                             <div>
                                 <p class="total_no"><span style="color: green;">KBN</span> <br><span style="color: #FF5F1F;"><b>{{ member_female }}</b></span> </p>
+                                <p class="head_couter pb-2 pt-5"></p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="{% url 'create_household' %}">
+                    <div class="full counter_section margin_bottom_30">
+                        <div class="couter_icon">
+                            <div>
+                                <i class="fa fa-briefcase" style="font-size: 2em; color: orange;"></i>
+                            </div>
+                        </div>
+                        <div class="counter_no">
+                            <div>
+                                <p class="total_no"><span style="color: green;">HouseHold</span> <br><span style="color: #FF5F1F;"><b>{{ member_female }}</b></span> </p>
+                                <p class="head_couter pb-2 pt-5"></p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="{% url 'kbn_bus_car' %}">
+                    <div class="full counter_section margin_bottom_30">
+                        <div class="couter_icon">
+                            <div>
+                                <i class="fa fa-briefcase" style="font-size: 2em; color: orange;"></i>
+                            </div>
+                        </div>
+                        <div class="counter_no">
+                            <div>
+                                <p class="total_no"><span style="color: green;">KCC</span> <br><span style="color: #FF5F1F;"><b>{{ member_female }}</b></span> </p>
                                 <p class="head_couter pb-2 pt-5"></p>
                             </div>
                         </div>

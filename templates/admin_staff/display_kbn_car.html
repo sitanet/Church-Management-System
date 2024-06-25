@@ -45,38 +45,31 @@
                                                  <tr>
                                                    <th>Photo</th>
                                                    <th>Name</th>
-                                                    <th>Business name</th>
-                                                    <th>Status</th>
+                                                    <th>Skill</th>
+                                                    <th>Achievements and Awards</th>
                                                 
-                                                    <th>years of experience</th>
-                                                    <th>No of Employees</th>
+                                                    <th>Additional Information</th>
+                                                    
                                               
-                                                    <th>Sector</th>
-                                                  
-                                                    <th>Action</th>
+                                                   
                                                     
                                                  </tr>
                                               </thead>
+                                              
                                               <tbody>
                                                 {% for member in member %}
                                                    <tr>
                                                       <td><img style="width: 40px; height: 50px;" class="img-responsive rounded-circle" src="{{ member.member.image.url }}" 
                                                          onerror="this.src='{% static 'images/avatar.jpg' %}'"  alt="#" /></td>
-                                                       <td>{{ member.member }}</td>
-                                                      <td>{{ member.business_name }}</td>
-                                                      <td>
-                                                         {% if member.is_registered %}
-                                                            Registered
-                                                         {% else %}
-                                                            Not registered
-                                                         {% endif %}
-                                                      </td>
+                                                       <td>{{ member.member.first_name }}</td>
+                                                      <td>{{ member.skills }}</td>
+                                                    
                                                      
-                                                      <td>{{ member.years_of_experience }}</td>
+                                                      <td>{{ member.achievements_and_awards }}</td>
                                                       
-                                                      <td>{{ member.number_of_employees }}</td>
-                                                      <td>{{ member.business_sector }}</td>
-                                                      <td ><a href="{% url 'member_detail' member.id %}" style="font-weight: bold; color: blue;">Edit</a>/<a href="{% url 'delete_member' member.id %}" onclick="return confirm('Are you sure you want to delete ?')" style="font-weight: bold; color: red;">Delete</a>/<a href="{% url 'new_comment' member.id %}" style="font-weight: bold; color: green;">Comment</a></td>
+                                                      <td>{{ member.additional_information }}</td>
+                                                     
+                                                      <!-- <td ><a href="{% url 'member_detail' member.id %}" style="font-weight: bold; color: blue;">Edit</a>/<a href="{% url 'delete_member' member.id %}" onclick="return confirm('Are you sure you want to delete ?')" style="font-weight: bold; color: red;">Delete</a>/<a href="{% url 'new_comment' member.id %}" style="font-weight: bold; color: green;">Comment</a></td> -->
                                                    </tr>
                                                    {% endfor %}
                                             

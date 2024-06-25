@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     # 'django_celery_beat',
     # 'django_celery_results',
     "django_apscheduler",
+    'crispy_forms',
     
     
     
@@ -67,6 +68,7 @@ INSTALLED_APPS = [
 
 
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 
@@ -316,3 +318,35 @@ SCHEDULER_JOB_DEFAULTS = {
 TERMII_API_KEY = 'TLVDYxEuHVSoYXNGzUsQiVIvDADIoWIwULdPmIcSqDrsJblXZcLjzMshonEGBq'
 TERMII_BASE_URL = 'https://api.ng.termii.com/api/sms/send'
 TERMII_SENDER_ID = 'TCGC MOS'  
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': 'django_debug.log',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console', 'file'],
+#         'level': 'DEBUG',
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', 'file'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#         'follow_app': {
+#             'handlers': ['console', 'file'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#     },
+# }

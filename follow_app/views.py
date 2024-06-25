@@ -9,7 +9,7 @@ from accounts.forms import UserForm
 from accounts.utils import send_verification_email
 
 from accounts.views import check_role_admin, check_role_coordinator
-from .models import Children, Team_Lead, TeamMember
+from .models import NYSC, Children, Team_Lead, TeamMember
 # from accounts.context_processors import get_staff
 from .forms import Team_LeadForm, MemberForm, CommentForm
 from .models import Member, Comment
@@ -23,7 +23,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from django.utils import timezone
 from follow_app.models import Member
-from twilio.rest import Client
+
 from django.conf import settings
 # from .tasks import send_birthday_wish_email
 
@@ -101,23 +101,8 @@ def register_member(request):
                     html_message=html_message,
                 )
 
-                # Send SMS via Twilio
-                try:
-                    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-                    sms_body = f"Hello {recipient_name}, your account has been registered successfully. Thank you for joining us!"
-                    phone_number = request.POST.get('phone_no')  # Ensure phone_number is collected from the form
-                    message = client.messages.create(
-                        body=sms_body,
-                        from_=settings.TWILIO_PHONE_NUMBER,
-                        to=phone_number
-                    )
-                    print(f'SMS sent: {message.sid}')
-                except Exception as e:
-                    messages.error(request, f'Failed to send SMS: {e}')
-                    print(f'Error sending SMS: {e}')
-
                 messages.success(request, 'Account has been registered successfully!')
-                return redirect('display_all_member')
+                return redirect('success')
             else:
                 messages.warning(request, form.errors)
                 messages.warning(request, 'Please check the form fields and fill them before submission.')
@@ -142,12 +127,19 @@ def register_member(request):
     return render(request, 'admin_staff/register_member.html', context)
 
 
+
 @login_required(login_url='login')
 @user_passes_test(check_role_admin)
 
 def display_all_member(request):
     member = Member.objects.all()
     return render(request, 'admin_staff/display_all_member.html', {'member': member})
+
+
+
+def member_detail_universal(request, id):
+    member = get_object_or_404(Member, id=id)
+    return render(request, 'admin_staff/member_detail_universal.html', {'member': member})
 
 
 @login_required(login_url='login')
@@ -207,19 +199,6 @@ def delete_member(request, id):
 @login_required(login_url='login')
 @user_passes_test(check_role_admin)
 
-# def member_detail(request, id):
-#     member = get_object_or_404(Member, id=id)
-    
-#     if request.method == 'POST':
-#         form = MemberForm(request.POST, request.FILES, instance=member)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('display_all_member')
-#     else:
-#         form = MemberForm(instance=member)
-#         coordinators = Team_Lead.objects.all()
-#         team_members = TeamMember.objects.all()
-#     return render(request, 'admin_staff/member_detail.html', {'form': form, 'member': member, 'coordinators': coordinators, 'team_members': team_members,})
 
 @login_required(login_url='login')
 @user_passes_test(check_role_admin)
@@ -241,53 +220,7 @@ def member_detail(request, id):
 
 
 
-# def member_detail(request, id):
-#     member = get_object_or_404(Member, id=id)
-#     if request.method == 'POST':
-#         form = MemberForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             if len(request.FILES) != 0:
-#                 if len(member.image) > 0:
-#                     os.remove(member.image.path)
-#                 member.image = request.FILES['image']
-#             member.first_name = request.POST.get('first_name')
-#             member.middle_name = request.POST.get('middle_name')
-#             member.last_name = request.POST.get('last_name')
-#             member.date_of_birth = request.POST.get('date_of_birth')
-#             member.email = request.POST.get('email')
-#             member.phone_no = request.POST.get('phone_no')
-#             member.gender = request.POST.get('gender')
-#             member.marital_status = request.POST.get('marital_status')
-#             member.occupation = request.POST.get('occupation')
-#             member.address = request.POST.get('address')
-#             member.nationality = request.POST.get('nationality')
-#             member.kcc_center = request.POST.get('kcc_center')
-#             member.wedding_ann = request.POST.get('wedding_ann')
-#             member.join = request.POST.get('join')
-#             member.reg_date = request.POST.get('reg_date')
-#             member.about = request.POST.get('about')
-#             member.dept = request.POST.get('dept')
-#             member.purpose = request.POST.get('purpose')
-#             member.coordinator = request.POST.get('coordinator')
-#             member.team_member = request.POST.get('team_member')
-#             member.save()
-#             messages.success(request, 'Account has been updated successfully!.')
-#             return redirect('display_all_member')
-#     else:
-#         form = MemberForm()
-#         coordinators = Coordinator.objects.all()
-#         team_members = TeamMember.objects.all()
-        
 
-#     context = {
-#                     'form':form,
-#                     'member':member,
-#                     # 'coordinators':coordinators,
-#                     # 'team_members':team_members,
-                    
-#                    }   
-
-#     return render(request, 'admin_staff/member_detail.html', context)
 
 
 
@@ -329,26 +262,7 @@ def new_comment(request, id):
     return render(request, 'admin_staff/new_comment.html', context)
 
 
-# @login_required(login_url='login')
-# @user_passes_test(check_role_admin)
-# def add_coordinator(request, id):
-#     member = get_object_or_404(Member, id=id)
-#     coordinator = Member.objects.get(id=id)
-#     if request.method == 'POST':
-#         form = Team_LeadForm(request.POST)
-#         if form.is_valid():
-#             coordinator = form.save(commit=False)
-            
-#             coordinator.save()
-#             return redirect('add_coordinator')
-   
-#     else:
-#         form = Team_LeadForm()
-#     context = {
-#          'member':member,
-#          'form':form,   
-#      }
-#     return render(request, 'admin_staff/add_coordinator.html', context)
+
 
 
 
@@ -386,19 +300,7 @@ def add_coordinator(request):
 
 
 
-# def count_data(request):
-#     member_count = Member.objects.count()
-#     return render(request, 'admin_staff/dashboard.html', {'member_count': member_count})
 
-
-# def send_birthday_wishes(request):
-#     today = timezone.now().date()
-#     customers_with_birthday = Member.objects.filter(date_of_birth=today)
-
-#     for customer in customers_with_birthday:
-#         send_birthday_wish_email.delay(customer.email, customer.first_name)
-
-#     return render(request, 'admin_staff/birthday_sent.html')
 
 @login_required(login_url='login')
 @user_passes_test(check_role_admin)
@@ -411,10 +313,32 @@ def admin_registration(request):
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Member, Family
 @login_required(login_url='login')
-@user_passes_test(check_role_coordinator)
+@user_passes_test(check_role_admin)
 def list_family(request):
     family = Family.objects.all()
-    return render(request, 'coordinators/list_family.html', {'family': family})
+    return render(request, 'admin_staff/list_family.html', {'family': family})
+
+
+
+
+
+def family_detail(request, id):
+    family = get_object_or_404(Family, id=id)
+    children = family.children.all()
+    return render(request, 'admin_staff/family_detail.html', {'family': family, 'children': children})
+
+
+
+
+
+def delete_family(request, id):
+    family = get_object_or_404(Family, id=id)
+    if request.method == 'POST':
+        family.delete()
+        return redirect('list_family')
+    return render(request, 'admin_staff/delete_family.html', {'family': family})
+
+
 
 
 @login_required(login_url='login')
@@ -432,12 +356,35 @@ def list_members_student(request):
 
 
 
+def nysc_detail(request, id):
+    nysc = get_object_or_404(NYSC, id=id)
+    return render(request, 'admin_staff/nysc_detail.html', {'nysc': nysc})
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_admin)
+def nysc(request):
+    members = NYSC.objects.all()
+    return render(request, 'admin_staff/nysc.html', {'members': members})
+
 
 @login_required(login_url='login')
 @user_passes_test(check_role_coordinator)
 def list_members_nysc(request):
     members = Member.objects.all()
     return render(request, 'coordinators/list_member_nysc.html', {'members': members})
+
+
+
+
+
+
+
+
+# def nysc_detail(request, pk):
+#     nysc = get_object_or_404(NYSC, pk=pk)
+#     return render(request, 'nysc_detail.html', {'nysc': nysc})
 
 
 
@@ -481,17 +428,17 @@ def kbn_bus_car(request):
 
 
 
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Family, Member, Child
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import FamilyForm, ChildForm
+from .models import Member, Team_Lead, TeamMember, Family, Child
+
 
 
 @login_required(login_url='login')
 @user_passes_test(check_role_coordinator)
-
-
-
 def create_family(request, member_id):
     member = get_object_or_404(Member, id=member_id)
 
@@ -501,37 +448,39 @@ def create_family(request, member_id):
             family = family_form.save(commit=False)
             family.husband = member
             family.team_lead = request.user.role
-            family.team_member = request.POST.get('team_member') 
+            family.team_member = request.POST.get('team_member')
             family.wife_id = request.POST['wife_id']
-
             family.save()
 
-            children_data = request.POST.getlist('children')
-            for child in children_data:
+            children_data = json.loads(request.POST.get('children', '[]'))
+            for child_data in children_data:
                 child_form = ChildForm({
-                    'name': child['name'],
-                    'age': child['age'],
-                    'family': family.id
+                    'name': child_data['name'],
+                    'age': child_data['age'],
                 })
                 if child_form.is_valid():
-                    child_form.save()
+                    child = child_form.save(commit=False)
+                    child.family = family  # Set the family field
+                    child.save()
 
             messages.success(request, 'Family created successfully')
-            return redirect('list_family')  # Redirect to a relevant view
-
+            return redirect('success')  # Redirect to a relevant view
+        else:
+            messages.error(request, 'Error in form data')
     else:
         family_form = FamilyForm()
-    
-        team_lead = Team_Lead.objects.all()
-        team_members = TeamMember.objects.all()
-        member = User.objects.all()
+
+    team_leads = Team_Lead.objects.all()
+    team_members = TeamMember.objects.all()
 
     return render(request, 'coordinators/create_family.html', {
         'family_form': family_form,
         'member': member,
-        'team_lead': team_lead,
+        'team_leads': team_leads,
         'team_members': team_members,
     })
+
+
 
 
 
@@ -563,7 +512,7 @@ def create_student(request, member_id):
             student.member = member
             student.save()
             messages.success(request, 'Student profile created successfully!')
-            return redirect('student_success')
+            return redirect('success')
         else:
             messages.error(request, 'There was an error creating the student profile.')
     else:
@@ -601,14 +550,14 @@ def create_nysc(request, member_id):
             nysc_instance = form.save(commit=False)
             nysc_instance.member = member
             nysc_instance.save()
-            return redirect('nysc_success')
+            return redirect('success')
     else:
         form = NYSCForm()
     return render(request, 'coordinators/create_nysc.html', {'form': form, 'member': member})
 
 
-def nysc_success(request):
-    return render(request, 'coordinators/nysc_success.html')
+def success(request):
+    return render(request, 'coordinators/success.html')
 
 
 
@@ -629,7 +578,7 @@ def create_child(request, member_id):
             child_instance = form.save(commit=False)
             child_instance.member = member
             child_instance.save()
-            return redirect('child_success')
+            return redirect('success')
     else:
         form = ChildrenForm()
     return render(request, 'coordinators/child_form.html', {'form': form, 'member': member})
@@ -640,90 +589,11 @@ def child_success(request):
 
 
 
-# views.py
-
-# views.py
-
-# from django.shortcuts import render, redirect
-# from .models import Member, Kbn
-# from .forms import KbnForm
-
-# def create_kbn(request, member_id):
-#     member = Member.objects.get(id=member_id)
-#     if request.method == 'POST':
-#         form = KbnForm(request.POST)  
-        
-#         # Print POST data for debugging
-#         print("POST data:", request.POST)
-
-#         if form.is_valid():
-#             kbn_instance = form.save(commit=False)
-#             kbn_instance.member = member
-
-#             # Check if 'is_business' or 'is_career' checkbox is ticked
-#             if request.POST.get('business'):
-#                 kbn_instance.designation = 'business'
-#             elif request.POST.get('career'):
-#                 kbn_instance.designation = 'career'
-
-#             kbn_instance.save()
-#             return redirect('kbn_success')
-#         else:
-#             # Print form errors for debugging
-#             print("Form errors:", form.errors)
-#             # Print cleaned data for debugging
-#             print("Cleaned data:", form.cleaned_data)
-#     else:
-#         form = KbnForm()
-
-#     return render(request, 'coordinators/kbn_form.html', {'form': form, 'member': member})
-
-
-
-# from django.shortcuts import render, redirect, get_object_or_404
-# from django.http import HttpResponse
-# from .forms import BusinessProfileForm
-# from .models import Member
-
-# def create_business_profile(request, member_id):
-#     member = get_object_or_404(Member, id=member_id)
-#     if request.method == 'POST':
-#         form = BusinessProfileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             profile = form.save(commit=False)
-#             profile.member = member
-#             profile.designation = 'business'  # Add business designation
-#             profile.save()
-#             return redirect('kbn_success')  # Replace 'kbn_success' with the actual name of your success page
-#     else:
-#         form = BusinessProfileForm()
-
-#     return render(request, 'coordinators/kbn_bus_form.html', {'form': form, 'member': member})
 
 
 
 
 
-
-# from django.shortcuts import render, redirect, get_object_or_404
-# from django.http import HttpResponse
-# from .forms import CareerProfileForm
-# from .models import Member
-
-# def create_career_profile(request, member_id):
-#     member = get_object_or_404(Member, id=member_id)
-#     if request.method == 'POST':
-#         form = CareerProfileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             profile = form.save(commit=False)
-#             profile.member = member
-#             profile.designation = 'career'  # Add career designation
-#             profile.save()
-#             return redirect('kbn_success')  # Replace 'kbn_success' with the actual name of your success page
-#     else:
-#         form = CareerProfileForm()
-
-#     return render(request, 'coordinators/kbn_car_form.html', {'form': form, 'member': member})
 
 
 
@@ -741,7 +611,7 @@ def create_business_profile(request, member_id):
         
         if form.is_valid():
             form.save()
-            return redirect('kbn_success')  # Change this to your success URL
+            return redirect('success')  # Change this to your success URL
     
     else:
         form = BusinessProfileForm(instance=business)
@@ -817,9 +687,6 @@ def kbn_success(request):
 from django.shortcuts import render, get_object_or_404
 from .models import Career
 
-# def member_male(request):
-#     member_male = Member.objects.filter(gender=1).filter(team_lead=request.user.role)
-#     return render(request, 'admin_staff/member_male.html', {'member_male': member_male})
 
 
 
@@ -829,6 +696,12 @@ def member_male(request):
     return render(request, 'admin_staff/member_male.html', {'member_male': member_male})
 
 
+nysc_detail
+def member_male_detail(request, id):
+    member = get_object_or_404(Member, id=id, gender=1)
+    return render(request, 'admin_staff/member_male_detail.html', {'member': member})
+
+
 def member_female(request):
     member_female = Member.objects.filter(gender=2)
     return render(request, 'admin_staff/member_female.html', {'member_female': member_female})
@@ -836,10 +709,14 @@ def member_female(request):
 
 
 
+
+def member_female_detail(request, id):
+    member = get_object_or_404(Member, id=id, gender=2)
+    return render(request, 'admin_staff/member_female_detail.html', {'member': member})
+
 def family(request):
     member = Family.objects.all()
     return render(request, 'admin_staff/list_family.html', {'member': member})
-
 
 
 
@@ -860,10 +737,15 @@ def member_single(request):
 
 
 def children(request):
-    children = Children.objects.all()
+    children = Children.objects.select_related('member').all()
     return render(request, 'admin_staff/children.html', {'children': children})
 
 
+
+
+def children_detail(request, id):
+    child = get_object_or_404(Children, id=id)
+    return render(request, 'admin_staff/children_detail.html', {'child': child})
 
 
 
@@ -924,3 +806,176 @@ def business_delete(request, pk):
     business.delete()
     messages.success(request, 'Career deleted successfully.')
     return redirect('business_list')  # Replace 'career_list' with the name of your list view
+
+
+
+
+
+from django.http import JsonResponse
+
+from .forms import HouseholdForm
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from .models import Household, HouseholdMember, Member
+from .forms import HouseholdMemberForm
+
+def create_household(request):
+    if request.method == 'POST':
+        household_form = HouseholdForm(request.POST)
+        if household_form.is_valid():
+            household = household_form.save()
+            members_data = request.POST.getlist('members')
+            positions_data = request.POST.getlist('positions')
+            for member_id, position in zip(members_data, positions_data):
+                if member_id and position:
+                    member = Member.objects.get(id=member_id)
+                    HouseholdMember.objects.create(household=household, member=member, position=position)
+            messages.success(request, 'Household created successfully.')
+            return redirect('success')  # Replace with your actual redirect
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        household_form = HouseholdForm()
+
+    return render(request, 'coordinators/create_household.html', {
+        'household_form': household_form,
+    })
+
+def search_members(request):
+    query = request.GET.get('q')
+    members = Member.objects.filter(first_name__icontains=query) | Member.objects.filter(last_name__icontains=query) | Member.objects.filter(middle_name__icontains=query)
+    results = [{'id': member.id, 'name': f"{member.first_name} {member.middle_name} {member.last_name}"} for member in members]
+    return JsonResponse(results, safe=False)
+
+
+
+
+def household_list(request):
+    households = Household.objects.all()
+    return render(request, 'admin_staff/household_list.html', {'households': households})
+
+
+
+def household_detail(request, household_id):
+    household = get_object_or_404(Household, pk=household_id)
+    members = household.householdmember_set.all()
+    return render(request, 'admin_staff/household_detail.html', {'household': household, 'members': members})
+
+def edit_household_member(request, household_id, member_id):
+    household_member = get_object_or_404(HouseholdMember, pk=member_id)
+    
+    if request.method == 'POST':
+        form = HouseholdMemberForm(request.POST, instance=household_member)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Household member updated successfully.')
+            return redirect('household_detail', household_id=household_member.household.id)
+    else:
+        form = HouseholdMemberForm(instance=household_member)
+    
+    return render(request, 'admin_staff/edit_household_member.html', {'form': form, 'household_member': household_member})
+
+
+
+
+def add_household_member(request, household_id):
+    household = get_object_or_404(Household, pk=household_id)
+    
+    if request.method == 'POST':
+        form = HouseholdMemberForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'New member added successfully.')
+            return redirect('household_detail', household_id=household.id)
+    else:
+        form = HouseholdMemberForm(initial={'household': household})
+    
+    return render(request, 'admin_staff/add_household_member.html', {'form': form, 'household': household})
+
+
+def delete_household_member(request, household_id, member_id):
+    household_member = get_object_or_404(HouseholdMember, pk=member_id)
+    household_member.delete()
+    messages.success(request, 'Household member deleted successfully.')
+    return redirect('household_detail', household_id=household_id)
+
+
+
+from django.http import JsonResponse
+from django.db.models import Q
+from .models import Member
+
+def search_member_add(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        members = Member.objects.filter(Q(first_name__icontains=q) | Q(last_name__icontains=q))[:10]
+        results = []
+        for member in members:
+            member_json = {}
+            member_json['id'] = member.id
+            member_json['label'] = f"{member.first_name} {member.last_name}"
+            member_json['value'] = f"{member.first_name} {member.last_name}"
+            results.append(member_json)
+        return JsonResponse(results, safe=False)
+
+
+
+
+
+
+
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Teenager, Member
+from .forms import TeenagerForm
+
+def teenager_member_list(request):
+    members = Member.objects.filter(marital_status=3)
+    return render(request, 'coordinators/teenager_member_list.html', {'members': members})
+
+def add_teenager(request, member_id):
+    member = get_object_or_404(Member, pk=member_id)
+    if request.method == 'POST':
+        form = TeenagerForm(request.POST)
+        if form.is_valid():
+            teenager = form.save(commit=False)
+            teenager.member = member
+            teenager.save()
+            return redirect('teenager_list')
+    else:
+        form = TeenagerForm()
+    return render(request, 'coordinators/add_teenager.html', {'form': form, 'member': member})
+
+def edit_teenager(request, teenager_id):
+    teenager = get_object_or_404(Teenager, pk=teenager_id)
+    if request.method == 'POST':
+        form = TeenagerForm(request.POST, instance=teenager)
+        if form.is_valid():
+            form.save()
+            return redirect('teenager_list')
+    else:
+        form = TeenagerForm(instance=teenager)
+    return render(request, 'coordinators/edit_teenager.html', {'form': form, 'teenager': teenager})
+
+def delete_teenager(request, teenager_id):
+    teenager = get_object_or_404(Teenager, pk=teenager_id)
+    if request.method == 'POST':
+        teenager.delete()
+        return redirect('teenager_list')
+    return render(request, 'coordinators/delete_teenager.html', {'teenager': teenager})
+
+def teenager_list(request):
+    teenagers = Teenager.objects.all()
+    return render(request, 'coordinators/teenager_list.html', {'teenagers': teenagers})
+
+def admin_teenager_list(request):
+    teenagers = Teenager.objects.all()
+    return render(request, 'admin_staff/admin_teenager_list.html', {'teenagers': teenagers})
+
+
+
+def teenager_detail(request, teenager_id):
+    teenager = get_object_or_404(Teenager, id=teenager_id)
+    return render(request, 'admin_staff/teenager_detail.html', {'teenager': teenager})

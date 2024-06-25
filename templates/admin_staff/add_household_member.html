@@ -1,0 +1,34 @@
+{% extends "coordinators/base.html" %}
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg rounded-5">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Add Household Member to {{ household.household_name }}</h4>
+                </div>
+                <div class="card-body p-5">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.errors }}
+                        {{ form.non_field_errors }}
+                        <div class="form-group">
+                            <label for="member">Member</label>
+                            {{ form.member }}
+                        </div>
+                        <div class="form-group d-none">
+                            {{ form.household }}
+                        </div>
+                        <div class="form-group">
+                            <label for="position">Position</label>
+                            {{ form.position }}
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3">Add Member</button>
+                        <a href="{% url 'household_detail' household.id %}" class="btn btn-secondary mt-3">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

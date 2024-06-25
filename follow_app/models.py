@@ -99,6 +99,7 @@ class Member(models.Model):
     purpose = models.CharField(max_length=20,blank=True, null=True)
     team_lead = models.CharField(max_length=20, blank=True, null=True)
     team_member = models.CharField(max_length=20, blank=True, null=True)
+   
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.PositiveIntegerField(choices=STATUS, default='1', blank=True)
     kin_fullname = models.CharField(max_length=50, blank=True, null=True)
@@ -117,7 +118,9 @@ class Member(models.Model):
  
 
     def __str__(self):
-        return self.first_name
+        if self.middle_name:
+            return f"{self.first_name} {self.middle_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name}"
 
 
 
@@ -369,3 +372,36 @@ class OtherQualification(models.Model):
 
 
 
+class Household(models.Model):
+    household_name = models.CharField(max_length=255)
+    members = models.ManyToManyField(Member, through='HouseholdMember')
+
+
+    def __str__(self):
+        return self.household_name
+
+class HouseholdMember(models.Model):
+    household = models.ForeignKey(Household, on_delete=models.CASCADE)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    position = models.CharField(max_length=100)
+
+
+    def __str__(self):
+        return f"{self.member} - {self.position}"
+    
+
+
+from django.db import models
+
+class Teenager(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='teenagers')
+    current_school_name = models.CharField(max_length=255)
+    current_class = models.CharField(max_length=100)
+    last_class_position = models.CharField(max_length=50)
+    favorite_subjects = models.TextField()
+    career_goals = models.TextField()
+    college_plans = models.TextField(blank=True, null=True)
+    other_future_aspirations = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.member.first_name} {self.member.last_name} - {self.current_school_name}"

@@ -73,6 +73,9 @@ class ChildForm(forms.ModelForm):
         fields = ['name', 'age']
 
 
+
+
+
 from django import forms
 from .models import Student
 
@@ -319,3 +322,63 @@ CurrentEmploymentFormSet = inlineformset_factory(Career, CurrentEmployment, form
 PreviousEmploymentFormSet = inlineformset_factory(Career, PreviousEmployment, form=PreviousEmploymentForm, extra=1)
 EducationalBackgroundFormSet = inlineformset_factory(Career, EducationalBackground, form=EducationalBackgroundForm, extra=1)
 OtherQualificationFormSet = inlineformset_factory(Career, OtherQualification, form=OtherQualificationForm, extra=1)
+
+
+
+
+from django import forms
+from .models import Household, HouseholdMember
+
+class HouseholdForm(forms.ModelForm):
+    class Meta:
+        model = Household
+        fields = ['household_name']  # Specify the fields you want to include
+
+    household_name = forms.CharField(
+        label='Household Name',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter household name'})
+    )
+ 
+
+
+class HouseholdMemberForm(forms.ModelForm):
+    class Meta:
+        model = HouseholdMember
+        fields = ['member', 'household', 'position']
+        widgets = {
+            'member': forms.Select(attrs={'class': 'form-control'}),
+            'household': forms.Select(attrs={'class': 'form-control'}),
+            'position': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(HouseholdMemberForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['member'].disabled = True
+
+
+
+
+
+
+
+from django import forms
+from .models import Teenager
+
+class TeenagerForm(forms.ModelForm):
+    class Meta:
+        model = Teenager
+        fields = [
+             'current_school_name', 'current_class', 'last_class_position', 
+            'favorite_subjects', 'career_goals', 'college_plans', 'other_future_aspirations'
+        ]
+        widgets = {
+        
+            'current_school_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'current_class': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_class_position': forms.TextInput(attrs={'class': 'form-control'}),
+            'favorite_subjects': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'career_goals': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'college_plans': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'other_future_aspirations': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }

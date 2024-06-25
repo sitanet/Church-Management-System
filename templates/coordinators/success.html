@@ -1,6 +1,7 @@
 <!-- templates/your_app_name/nysc_success.html -->
 
 {% extends "coordinators/base.html" %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row">
@@ -11,10 +12,11 @@
         </div>
         
         <div class="col-md-12">
-            <div class="card shadow-lg rounded-5">
-                <div class="card-body p-5">
-                    <p>Your NYSC record has been successfully created.</p>
-                    <a href="{% url 'list_members_nysc' %}" class="btn btn-primary">Create Another Student</a>
+            <div class="card shadow-lg rounded-5 bg-success">
+                <div class="card-body p-5 text-center">
+                    <h3 class="text-white">Record Created Successfully!</h3>
+                    <p class="text-white">Your record has been successfully created.</p>
+                    <!-- <a href="{% url 'list_members_nysc' %}" class="btn btn-primary btn-lg">Create Another One</a> -->
                     <!-- You can add any additional content or links here -->
                 </div>
             </div>
